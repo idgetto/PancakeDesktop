@@ -16,7 +16,7 @@ import java.awt.geom.Rectangle2D;
 public class GridPanel extends JPanel {
 
     private GridAdapter _gridAdapter;
-    private Point _prevMoveCell;
+    private List<Point> _sequence;
 
     public GridPanel(GridAdapter gridAdapter) {
         _gridAdapter = gridAdapter;
@@ -25,7 +25,10 @@ public class GridPanel extends JPanel {
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
+                _sequence = new ArrayList<Point>();
                 Point cell = getTouchedCell(e.getX(), e.getY());
+                _sequence.add(cell);
+
                 _gridAdapter.cellTouched(cell);
 
                 repaint();
@@ -37,9 +40,9 @@ public class GridPanel extends JPanel {
                 Point cell = getTouchedCell(e.getX(), e.getY());
 
                 // don't activate twice for same cell on moves
-                if (_prevMoveCell == null || !_prevMoveCell.equals(cell)) {
+                if (!_sequence.contains(cell)) {
                     _gridAdapter.cellTouched(cell);
-                    _prevMoveCell = cell;
+                    _sequence.add(cell);
                     repaint();
                 }
             }

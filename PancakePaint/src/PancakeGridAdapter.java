@@ -35,7 +35,7 @@ public class PancakeGridAdapter implements GridAdapter {
 
         if (!touched || differentColor) {
             if (_brush.isFill()) {
-                floodFill(cell, brushColor);
+                floodFill(cell, brushColor, _colorGrid[cell.y][cell.x]);
             } else {
                 touchCell(cell, brushColor);
             }
@@ -52,14 +52,14 @@ public class PancakeGridAdapter implements GridAdapter {
         return NUM_COLS;
     }
 
-    private void floodFill(Point cell, Color color) {
-        if (inBounds(cell) && !_touchGrid[cell.y][cell.x]) {
+    private void floodFill(Point cell, Color color, Color initialColor) {
+        if (inBounds(cell) && _colorGrid[cell.y][cell.x] == initialColor) {
             touchCell(cell, color);
 
-            floodFill(new Point(cell.x-1, cell.y), color);
-            floodFill(new Point(cell.x+1, cell.y), color);
-            floodFill(new Point(cell.x, cell.y-1), color);
-            floodFill(new Point(cell.x, cell.y+1), color);
+            floodFill(new Point(cell.x-1, cell.y), color, initialColor);
+            floodFill(new Point(cell.x+1, cell.y), color, initialColor);
+            floodFill(new Point(cell.x, cell.y-1), color, initialColor);
+            floodFill(new Point(cell.x, cell.y+1), color, initialColor);
         }
     }
 
