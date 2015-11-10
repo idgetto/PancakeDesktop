@@ -10,43 +10,38 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.List;
+import java.awt.geom.Rectangle2D;
 
 public class GridPanel extends JPanel {
 
-    private int _rows;
-    private int _cols;
-    private boolean[][] _touched;
-    private boolean _floodFill;
+    private GridAdapter _gridAdapter;
+    private Point _prevMoveCell;
 
-    public GridPanel(int rows, int cols) {
-        _rows = rows;
-        _cols = cols;
-        _touched = new boolean[_rows][_cols];
+    public GridPanel(GridAdapter gridAdapter) {
+        _gridAdapter = gridAdapter;
 
         setBorder(BorderFactory.createLineBorder(Color.black));
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                Point cell = getCell(e.getX(), e.getY());
+                Point cell = getTouchedCell(e.getX(), e.getY());
+                _gridAdapter.cellTouched(cell);
 
-                if (_floodFill) {
-                    floodFill(cell);
-                } else {
-                    _touched[cell.y][cell.x] = !_touched[cell.y][cell.x];
-                }
-
-                if (cell.x == 0 && cell.y == 0) {
-                    _floodFill = !_floodFill;
-                }
                 repaint();
             }
         });
 
         addMouseMotionListener(new MouseAdapter() {
             public void mouseDragged(MouseEvent e) {
-                Point cell = getCell(e.getX(), e.getY());
-                _touched[cell.y][cell.x] = true;
-                repaint();
+                Point cell = getTouchedCell(e.getX(), e.getY());
+
+                // don't activate twice for same cell on moves
+                if (_prevMoveCell == null || !_prevMoveCell.equals(cell)) {
+                    _gridAdapter.cellTouched(cell);
+                    _prevMoveCell = cell;
+                    repaint();
+                }
             }
         });
     }
@@ -55,60 +50,38 @@ public class GridPanel extends JPanel {
         return new Dimension(800, 400);
     }
 
-    private void floodFill(Point p) {
-        System.out.println("Flood Fill!");
-        System.out.println("row: " + p.y);
-        System.out.println("col: " + p.x);
+    private Point getTouchedCell(double touchX, double touchY) {
+        int col = (int) (touchX / getCellWidth());
+        int row = (int) (touchY / getCellHeight());
 
-        if (inBounds(p) && !_touched[p.y][p.x]) {
-            _touched[p.y][p.x] = true;
-
-            floodFill(new Point(p.x-1, p.y));
-            floodFill(new Point(p.x+1, p.y));
-            floodFill(new Point(p.x, p.y-1));
-            floodFill(new Point(p.x, p.y+1));
-        }
-    }
-
-    private boolean inBounds(Point p) {
-        return p.x >= 0 && p.y >= 0 && p.x < _cols && p.y < _rows;
-    }
-
-    private Point getCell(double x, double y) {
-        int col = (int) (x / getCellWidth());
-        int row = (int) (y / getCellHeight());
-
-        System.out.println("row: " + row);
-        System.out.println("col: " + col);
         return new Point(col, row);
     }
 
     private int getCellWidth() {
         int width = getWidth();
-        int cellWidth = width / _cols;
+        int cellWidth = width / _gridAdapter.getCols();
         return cellWidth;
     }
 
     private int getCellHeight() {
         int height = getHeight();
-        int cellHeight = height / _rows;
+        int cellHeight = height / _gridAdapter.getRows();
         return cellHeight;
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(Color.BLACK);
 
-        for (int row = 0; row < _rows; ++row) {
-            for (int col = 0; col < _cols; ++col) {
+        for (int row = 0; row < _gridAdapter.getRows(); ++row) {
+            for (int col = 0; col < _gridAdapter.getCols(); ++col) {
                 int x = col * getCellWidth();
                 int y = row * getCellHeight();
 
-                if (_touched[row][col]) {
-                    g.fillRect(x, y, getCellWidth(), getCellHeight());
-                } else {
-                    g.drawRect(x, y, getCellWidth(), getCellHeight());
-                }
+                Rectangle2D.Double rect = new Rectangle2D.Double(x, 
+                                                                 y, 
+                                                                 getCellWidth(), 
+                                                                 getCellHeight());
+                _gridAdapter.paintCell(new Point(col, row), g, rect);
             }
         }
     }
