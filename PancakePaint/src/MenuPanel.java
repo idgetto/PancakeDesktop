@@ -21,6 +21,9 @@ public class MenuPanel extends JPanel {
     private  Rectangle2D.Double _yellowButton;
     private  Rectangle2D.Double _brownButton;
 
+    private boolean _fill;
+    private Color _color;
+
     public MenuPanel() {
         _pencilButton = new Rectangle2D.Double(0, 
                                                0, 
@@ -49,16 +52,28 @@ public class MenuPanel extends JPanel {
                 System.out.println("x: " + point.x + ", y: "  + point.y);
                 if (_pencilButton.contains(point)) {
                     System.out.println("Pencil");
+                    _fill = false;
                 } else if (_fillButton.contains(point)) {
                     System.out.println("Fill");
+                    _fill = true;
                 } else if (_yellowButton.contains(point)) {
                     System.out.println("Yellow");
+                    _color = Color.YELLOW;
                 } else if (_brownButton.contains(point)) {
                     System.out.println("Brown");
+                    _color = Color.LIGHT_GRAY;
                 }
                 
             }
         });
+    }
+
+    public boolean getFill() {
+        return _fill;
+    }
+
+    public Color getPenColor() {
+        return _color;
     }
 
     public Dimension getPreferredSize() {
