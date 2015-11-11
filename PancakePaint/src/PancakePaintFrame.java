@@ -13,10 +13,12 @@ public class PancakePaintFrame extends JFrame implements SolveListener {
     private PancakeGridAdapter _pancakeGridAdapter;
     private PancakePaintBrush _pancakePaintBrush;
     private PancakePathSolver _pathSolver;
+    private PrinterCompiler _printerCompiler;
 
     public PancakePaintFrame() {
         super("Pancake Paint");
         _pathSolver = new PancakePathSolver();
+        _printerCompiler = new PrinterCompiler();
 
         setupWindow();
         addComponents();
@@ -47,6 +49,9 @@ public class PancakePaintFrame extends JFrame implements SolveListener {
         System.out.println("Solve!");
         Color[][] grid = _pancakeGridAdapter.getColorGrid();
         Recipe recipe = _pathSolver.solve(grid);
+
+        String res = _printerCompiler.compile(recipe);
+        System.out.println(res);
     }
 
 }

@@ -14,6 +14,10 @@ public class Phase {
         _strokes.add(stroke);
     }
 
+    public long getEndDelay() {
+        return _endDelay;
+    }
+
     public void setEndDelay(long delay) {
         _endDelay = delay;
     }

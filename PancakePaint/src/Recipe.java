@@ -34,7 +34,7 @@ public class Recipe {
                 
                 Stroke stroke = strokes.get(strokeIndex);
                 for (Point p : stroke.getPoints()) {
-                    str += p.x + ", " + p.y + "\n";
+                    str += "row: " + p.y + ", col: " + p.x + "\n";
                 }
                 str += "\n";
             }
