@@ -17,9 +17,13 @@ public class GridPanel extends JPanel {
 
     private GridAdapter _gridAdapter;
     private List<Point> _sequence;
+    
+    private int _width, _height;
 
-    public GridPanel(GridAdapter gridAdapter) {
+    public GridPanel(GridAdapter gridAdapter, int width, int height) {
         _gridAdapter = gridAdapter;
+        _width = width;
+        _height = height;
 
         setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -49,8 +53,12 @@ public class GridPanel extends JPanel {
         });
     }
 
+    public void setGridAdapter(GridAdapter adapter) {
+        _gridAdapter = adapter;
+    }
+
     public Dimension getPreferredSize() {
-        return new Dimension(800, 400);
+        return new Dimension(_width, _height);
     }
 
     private Point getTouchedCell(double touchX, double touchY) {

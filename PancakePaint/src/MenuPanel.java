@@ -31,12 +31,15 @@ public class MenuPanel extends JPanel {
     private SolveListener _solveListener;
 
     PancakePaintBrush _brush;
+    private int _width, _height;
 
-    public MenuPanel(PancakePaintBrush brush) {
-        setupComponents();
-
+    public MenuPanel(PancakePaintBrush brush, int width, int height) {
         _brush = brush;
         _brush.setColor(Color.YELLOW);
+        _width = width;
+        _height = height;
+        setupComponents();
+
     }
 
     public void setSolveListener(SolveListener listener) {
@@ -92,7 +95,7 @@ public class MenuPanel extends JPanel {
     }
 
     public Dimension getPreferredSize() {
-        return new Dimension(800, 30);
+        return new Dimension(_width, _height);
     }
 
     public void paintComponent(Graphics g) {

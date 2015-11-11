@@ -3,25 +3,31 @@ import java.awt.geom.Rectangle2D;
 import java.awt.Point;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import javax.swing.JPanel;
 
 public class PancakeGridAdapter implements GridAdapter {
-    private static final int NUM_ROWS = 16;
-    private static final int NUM_COLS = 32;
-
     private boolean[][] _touchGrid;
     private Color[][] _colorGrid;
     
+    private JPanel _panel;
+    private int _rows, _cols;
     private PancakePaintBrush _brush;
 
-    public PancakeGridAdapter(PancakePaintBrush brush) {
+    public PancakeGridAdapter(JPanel panel, 
+                              PancakePaintBrush brush, 
+                              int rows, 
+                              int cols) {
+        _panel = panel;
+        _rows = rows;
+        _cols = cols;
         _brush = brush;
 
-        _touchGrid = new boolean[NUM_ROWS][NUM_COLS];
-        _colorGrid = new Color[NUM_ROWS][NUM_COLS];
+        _touchGrid = new boolean[_rows][_cols];
+        _colorGrid = new Color[_rows][_cols];
 
         // Setup color grid to be white
-        for (int row = 0; row < NUM_ROWS; ++row) {
-            for (int col = 0; col < NUM_COLS; ++col) {
+        for (int row = 0; row < _rows; ++row) {
+            for (int col = 0; col < _cols; ++col) {
                 _colorGrid[row][col] = Color.WHITE;
             }
         }
@@ -45,11 +51,11 @@ public class PancakeGridAdapter implements GridAdapter {
     }
 
     public int getRows() {
-        return NUM_ROWS;
+        return _rows;
     }
 
     public int getCols() {
-        return NUM_COLS;
+        return _cols;
     }
 
     private void floodFill(Point cell, Color color, Color initialColor) {
@@ -64,7 +70,7 @@ public class PancakeGridAdapter implements GridAdapter {
     }
 
     private boolean inBounds(Point p) {
-        return p.x >= 0 && p.y >= 0 && p.x < NUM_COLS && p.y < NUM_ROWS;
+        return p.x >= 0 && p.y >= 0 && p.x < _cols && p.y < _rows;
     }
 
     private void touchCell(Point cell, Color color) {
