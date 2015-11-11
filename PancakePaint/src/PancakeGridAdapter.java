@@ -90,4 +90,8 @@ public class PancakeGridAdapter implements GridAdapter {
 
     }
 
+    public Color[][] getColorGrid() {
+        return _colorGrid;
+    }
+
 }
