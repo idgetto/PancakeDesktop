@@ -9,11 +9,12 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available() > 0) {
-      Serial.print("avail");
-      char c = Serial.read();
-      Serial.print(c);
-  }
+  out_test();
+}
+
+void out_test() {
+  Serial.println("out test");
+  delay(500);
 }
 
 //void loop() {
