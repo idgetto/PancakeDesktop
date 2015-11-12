@@ -90,11 +90,6 @@ public class PancakePathSolver {
             // mark this point as visited
             grid.set(point.y, point.x, Color.WHITE);
 
-            Point up = new Point(point.x - 1, point.y);
-            Point down = new Point(point.x + 1, point.y);
-            Point left = new Point(point.x, point.y - 1);
-            Point right = new Point(point.x, point.y + 1);
-
             List<Point> points = getAdjacentPoints(point);
             for (Point p : points) {
                 floodFillSolve(p, color, phase, stroke, grid);
