@@ -17,17 +17,17 @@ public class GridController implements GridListener {
 
         Point cell = new Point(event.x, event.y);
         Grid<Color> grid = _model.getGrid();
-        boolean touched = (grid.get(cell.y, cell.x) != PancakePallete.WHITE);
-        boolean differentColor = (grid.get(cell.y, cell.x) != brushColor);
 
-        if (!touched || differentColor) {
-            if (brush.getMode() == PancakePaintBrush.BrushMode.FILL) {
-                floodFill(cell, brushColor, grid.get(cell.y, cell.x));
-            } else {
+        switch (brush.getMode()) {
+            case ERASE:
+                grid.set(cell.y, cell.x, PancakePallete.WHITE);
+                break;
+            case PENCIL:
                 grid.set(cell.y, cell.x, brushColor);
-            }
-        } else if (touched && !differentColor) {
-            grid.set(cell.y, cell.x, PancakePallete.WHITE);
+                break;
+            case FILL:
+                floodFill(cell, brushColor, grid.get(cell.y, cell.x));
+                break;
         }
 
         _view.repaint(_model);
