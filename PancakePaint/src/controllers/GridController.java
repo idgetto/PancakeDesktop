@@ -35,13 +35,21 @@ public class GridController implements GridListener {
 
     private void floodFill(Point cell, Color color, Color initialColor) {
         Grid<Color> grid = _model.getGrid();
-        if (inBounds(cell) && grid.get(cell.y, cell.x).equals(initialColor)) {
-            grid.set(cell.y, cell.x, color);
+        int x = cell.x;
+        int y = cell.y;
 
-            floodFill(new Point(cell.x-1, cell.y), color, initialColor);
-            floodFill(new Point(cell.x+1, cell.y), color, initialColor);
-            floodFill(new Point(cell.x, cell.y-1), color, initialColor);
-            floodFill(new Point(cell.x, cell.y+1), color, initialColor);
+        boolean sameColor = color == initialColor;
+        if (inBounds(cell) && !sameColor) {
+
+            boolean sameInsideColor = grid.get(y, x).equals(initialColor);
+            if (sameInsideColor) {
+                grid.set(y, x, color);
+
+                floodFill(new Point(x-1, y), color, initialColor);
+                floodFill(new Point(x+1, y), color, initialColor);
+                floodFill(new Point(x, y-1), color, initialColor);
+                floodFill(new Point(x, y+1), color, initialColor);
+            }
         }
     }
 
