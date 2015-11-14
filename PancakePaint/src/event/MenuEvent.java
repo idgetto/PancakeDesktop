@@ -4,5 +4,6 @@ public enum MenuEvent {
     ERASE,
     YELLOW,
     BROWN,
+    CLEAR,
     SOLVE
 }

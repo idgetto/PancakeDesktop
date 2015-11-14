@@ -27,6 +27,7 @@ public class MenuPanel extends JPanel {
     private JRadioButton _eraseButton;
     private Button _yellowButton;
     private Button _brownButton;
+    private Button _clearButton;
     private Button _solveButton;
 
     private MenuListener _menuListener;
@@ -58,6 +59,7 @@ public class MenuPanel extends JPanel {
         add(_eraseButton);
         add(_yellowButton);
         add(_brownButton);
+        add(_clearButton);
         add(_solveButton);
     }
 
@@ -94,6 +96,13 @@ public class MenuPanel extends JPanel {
         _brownButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 _menuListener.onMenuEvent(MenuEvent.BROWN);
+            }
+        });
+
+        _clearButton = new Button("Clear");
+        _clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                _menuListener.onMenuEvent(MenuEvent.CLEAR);
             }
         });
 

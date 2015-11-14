@@ -32,11 +32,23 @@ public class MenuController implements MenuListener {
             case BROWN:
                 brush.setColor(PancakePallete.BROWN);
                 break;
+            case CLEAR:
+                clearGrid();
+                break;
             case SOLVE:
                 solvePath();
                 break;
         }
         _view.repaint(_model);
+    }
+
+    private void clearGrid() {
+        Grid<Color> grid = _model.getGrid();
+        for (int row = 0; row < grid.getNumRows(); ++row) {
+            for (int col = 0; col < grid.getNumCols(); ++col) {
+                grid.set(row, col, PancakePallete.WHITE);
+            }
+        }
     }
 
     private void solvePath() {
