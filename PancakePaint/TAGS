@@ -1,0 +1,231 @@
+
+Makefile,176
+SRCDIR := srcSRCDIR1,0
+SOURCES := $(shell find $(SRCDIR) -type f -name *.java) SOURCES2,14
+LIBS := -Djava.library.path=libsLIBS3,71
+EXEC := PancakePaintRunnerEXEC4,104
+
+src/solver/Recipe.java,327
+public class Recipe {Recipe5,75
+    private List<Phase> _phases;_phases6,97
+    public Recipe() {Recipe8,131
+    public void addPhase(Phase phase) {addPhase12,202
+    public List<Phase> getPhases() {getPhases16,277
+    public Phase getPhase(int index) {getPhase20,349
+    public String toString() {toString24,430
+
+src/solver/Phase.java,387
+public class Phase {Phase5,75
+    private List<Stroke> _strokes;_strokes6,96
+    private long _endDelay;_endDelay7,131
+    public Phase() {Phase9,160
+    public void addStroke(Stroke stroke) {addStroke13,232
+    public long getEndDelay() {getEndDelay17,312
+    public void setEndDelay(long delay) {setEndDelay21,377
+    public List<Stroke> getStrokes() {getStrokes25,453
+
+src/solver/RecipeAnimator.java,342
+public class RecipeAnimator {RecipeAnimator8,169
+    private Recipe _recipe;_recipe10,200
+    private PancakeModel _model;_model11,228
+    private Paintable _view;_view12,261
+    public RecipeAnimator(Recipe recipe, PancakeModel model, Paintable view) {RecipeAnimator14,291
+    public void run(final Callback callback) {run20,449
+
+src/solver/PancakePathSolver.java,654
+public class PancakePathSolver {PancakePathSolver8,146
+    public Recipe solve(Grid<Color> grid) {solve10,180
+    private boolean containsColor(Color color, Grid<Color> grid) {containsColor38,1025
+    private Point findColor(Color color, Grid<Color> grid) {findColor49,1360
+    private List<Color> getColors(Grid<Color> grid) {getColors60,1699
+    private void floodFillSolve(Point point, floodFillSolve71,2080
+    private List<Point> getAdjacentPoints(Point point) {getAdjacentPoints101,3064
+    private boolean inBounds(Point point, Grid<Color> grid) {inBounds117,3649
+    private boolean adjacent(Point a, Point b) {adjacent123,3842
+
+src/solver/Callback.java,66
+public interface Callback {Callback1,0
+    void run();run2,28
+
+src/solver/Stroke.java,279
+public class Stroke {Stroke5,75
+    private List<Point> _points;_points6,97
+    public Stroke() {Stroke8,131
+    public void addPoint(Point point) {addPoint12,202
+    public List<Point> getPoints() {getPoints16,277
+    public Point getLastPoint() {getLastPoint20,345
+
+src/PancakePaint.java,401
+public class PancakePaint implements Paintable {PancakePaint1,0
+    private PancakeModel _model;_model3,50
+    private PancakePaintFrame _frame;_frame4,83
+    private MenuController _menuController;_menuController5,121
+    private GridController _gridController;_gridController6,165
+    public PancakePaint() {PancakePaint8,210
+    public void repaint(PancakeModel model) {repaint18,549
+
+src/PancakePaintRunner.java,112
+public class PancakePaintRunner {PancakePaintRunner1,0
+    public static void main(String[] args) {main3,35
+
+src/views/Paintable.java,94
+public interface Paintable {Paintable1,0
+    void repaint(PancakeModel model);repaint2,29
+
+src/views/PancakePallete.java,326
+public class PancakePallete {PancakePallete3,24
+    public static final Color WHITE = Color.WHITE;WHITE5,55
+    public static final Color GREEN = Color.GREEN;GREEN6,106
+    public static final Color YELLOW = new Color(243, 187, 76);YELLOW7,157
+    public static final Color BROWN = new Color(192, 94, 29);BROWN8,221
+
+src/views/MenuPanel.java,1064
+public class MenuPanel extends JPanel {MenuPanel23,663
+    private JRadioButton _pencilButton;_pencilButton25,704
+    private JRadioButton _fillButton;_fillButton26,744
+    private JRadioButton _eraseButton;_eraseButton27,782
+    private Button _yellowButton;_yellowButton28,821
+    private Button _brownButton;_brownButton29,855
+    private Button _clearButton;_clearButton30,888
+    private Button _printButton;_printButton31,921
+    private MenuListener _menuListener;_menuListener33,955
+    private int _width, _height;_width34,995
+    private int _width, _height;_height34,995
+    public MenuPanel(int width, int height) {MenuPanel36,1029
+    public void setMenuListener(MenuListener listener) {setMenuListener43,1160
+    public void setupComponents() {setupComponents47,1258
+    private void setupButtons() {setupButtons66,1733
+    public Dimension getPreferredSize() {getPreferredSize117,3581
+    public void repaint(PancakeModel model) {repaint121,3677
+    public void paintComponent(Graphics g) {paintComponent125,3749
+
+src/views/PancakePaintFrame.java,1045
+public class PancakePaintFrame extends JFrame {PancakePaintFrame9,203
+    private static final int GRILL_WIDTH = 1200;GRILL_WIDTH12,300
+    private static final int GRILL_HEIGHT = 600;GRILL_HEIGHT13,349
+    private static final int MENU_WIDTH = GRILL_WIDTH;MENU_WIDTH14,398
+    private static final int MENU_HEIGHT = 30;MENU_HEIGHT15,453
+    private static final int FRAME_WIDTH = GRILL_WIDTH;FRAME_WIDTH16,500
+    private static final int FRAME_HEIGHT = GRILL_HEIGHT + MENU_HEIGHT;FRAME_HEIGHT17,556
+    private MenuPanel _menuPanel;_menuPanel19,629
+    private GridPanel _gridPanel;_gridPanel20,663
+    public PancakePaintFrame(PancakeModel model) {PancakePaintFrame22,698
+    public void repaint(PancakeModel model) {repaint29,867
+    public void setMenuListener(MenuListener listener) {setMenuListener34,990
+    public void setGridListener(GridListener listener) {setGridListener38,1100
+    private void setupWindow() {setupWindow42,1210
+    private void addComponents(PancakeModel model) {addComponents48,1379
+
+src/views/DrawPanel.java,405
+class DrawPanel extends JPanel {DrawPanel14,381
+    private int _x;_x16,415
+    private int _y;_y17,435
+    private ArrayList<Point> sequence;sequence18,455
+    public DrawPanel() {DrawPanel20,495
+    private void paintPixel(int x, int y) {paintPixel41,1120
+    public Dimension getPreferredSize() {getPreferredSize47,1236
+    public void paintComponent(Graphics g) {paintComponent51,1325
+
+src/views/GridPanel.java,871
+public class GridPanel extends JPanel {GridPanel17,466
+    private List<Point> _sequence;_sequence19,507
+    private PancakeModel _model;_model20,542
+    private GridListener _gridListener;_gridListener21,575
+    private int _width, _height;_width23,620
+    private int _width, _height;_height23,620
+    public GridPanel(PancakeModel model, int width, int height) {GridPanel25,654
+    public void setGridListener(GridListener listener) {setGridListener55,1668
+    public Dimension getPreferredSize() {getPreferredSize59,1766
+    private Point getTouchedCell(double touchX, double touchY) {getTouchedCell63,1862
+    private int getCellWidth() {getCellWidth70,2074
+    private int getCellHeight() {getCellHeight77,2268
+    public void repaint(PancakeModel model) {repaint84,2468
+    public void paintComponent(Graphics g) {paintComponent92,2657
+
+src/controllers/GridController.java,460
+public class GridController implements GridListener {GridController4,47
+    private Paintable _view;_view6,102
+    private PancakeModel _model;_model7,131
+    public GridController(Paintable view, PancakeModel model) {GridController9,165
+    public void onGridEvent(GridEvent event) {onGridEvent14,282
+    private void floodFill(Point cell, Color color, Color initialColor) {floodFill36,938
+    private boolean inBounds(Point p) {inBounds56,1651
+
+src/controllers/MenuController.java,610
+public class MenuController implements MenuListener {MenuController3,24
+    private Paintable _view;_view5,79
+    private PancakeModel _model;_model6,108
+    private PancakePathSolver _pathSolver;_pathSolver7,141
+    private PancakeCompiler _pancakeCompiler;_pancakeCompiler8,184
+    public MenuController(Paintable view, PancakeModel model) {MenuController10,231
+    public void onMenuEvent(MenuEvent event) {onMenuEvent17,445
+    private void clearGrid() {clearGrid45,1313
+    private void solvePath() {solvePath54,1602
+    private void animateRecipe(Recipe recipe) {animateRecipe59,1732
+
+src/models/PancakePaintBrush.java,526
+public class PancakePaintBrush {PancakePaintBrush3,24
+    public enum BrushMode {BrushMode5,58
+        PENCIL,PENCIL6,86
+        ERASE,ERASE7,102
+        FILLFILL8,117
+    private Color _color ;_color11,137
+    private BrushMode _mode;_mode12,164
+    public PancakePaintBrush() {PancakePaintBrush14,194
+    public void setColor(Color color) {setColor19,308
+    public Color getColor() {getColor23,379
+    public void setMode(BrushMode mode) {setMode27,439
+    public BrushMode getMode() {getMode31,510
+
+src/models/PancakeModel.java,455
+public class PancakeModel {PancakeModel3,25
+    private static final int ROWS = 30;ROWS5,54
+    private static final int COLS = 60;COLS6,94
+    private Grid<Color> _grid;_grid8,135
+    private PancakePaintBrush _brush;_brush9,166
+    public PancakeModel() {PancakeModel11,205
+    public Grid<Color> getGrid() {getGrid16,349
+    public void setGrid(Grid<Color> grid) {setGrid20,413
+    public PancakePaintBrush getBrush() {getBrush24,486
+
+src/models/Grid.java,470
+public class Grid<T> {Grid4,52
+    private int _rows, _cols;_rows6,76
+    private int _rows, _cols;_cols6,76
+    private List<List<T>> _grid;_grid7,106
+    public Grid(int rows, int cols, T initial) {Grid9,140
+    public Grid(Grid<T> other) {Grid21,503
+    public T get(int row, int col) {get34,920
+    public void set(int row, int col, T val) {set38,1004
+    public int getNumRows() {getNumRows42,1096
+    public int getNumCols() {getNumCols46,1155
+
+src/models/PancakeCompiler.java,274
+public class PancakeCompiler {PancakeCompiler4,47
+    public String compile(Recipe recipe) {compile6,79
+    private void appendDelay(StringBuffer buf, long delay) {appendDelay40,1065
+    private void appendMove(StringBuffer buf, float x, float y) {appendMove46,1229
+
+src/event/MenuListener.java,105
+public interface MenuListener {MenuListener1,0
+    void onMenuEvent(MenuEvent event);onMenuEvent2,32
+
+src/event/GridEvent.java,147
+public class GridEvent {GridEvent1,0
+    public int x, y;x3,26
+    public int x, y;y3,26
+    public GridEvent(int x, int y) {GridEvent5,48
+
+src/event/MenuEvent.java,193
+public enum MenuEvent {MenuEvent1,0
+    PENCIL,PENCIL2,24
+    FILL,FILL3,36
+    ERASE,ERASE4,46
+    YELLOW,YELLOW5,57
+    BROWN,BROWN6,69
+    CLEAR,CLEAR7,80
+    SOLVESOLVE8,91
+
+src/event/GridListener.java,105
+public interface GridListener {GridListener1,0
+    void onGridEvent(GridEvent event);onGridEvent2,32
