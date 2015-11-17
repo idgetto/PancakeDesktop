@@ -28,7 +28,7 @@ public class MenuPanel extends JPanel {
     private Button _yellowButton;
     private Button _brownButton;
     private Button _clearButton;
-    private Button _solveButton;
+    private Button _printButton;
 
     private MenuListener _menuListener;
     private int _width, _height;
@@ -60,7 +60,7 @@ public class MenuPanel extends JPanel {
         add(_yellowButton);
         add(_brownButton);
         add(_clearButton);
-        add(_solveButton);
+        add(_printButton);
     }
 
     private void setupButtons() {
@@ -106,10 +106,10 @@ public class MenuPanel extends JPanel {
             }
         });
 
-        _solveButton = new Button("Solve");
-        _solveButton.addActionListener(new ActionListener() {
+        _printButton = new Button("Print");
+        _printButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                _menuListener.onMenuEvent(MenuEvent.SOLVE);
+                _menuListener.onMenuEvent(MenuEvent.PRINT);
             }
         });
     }

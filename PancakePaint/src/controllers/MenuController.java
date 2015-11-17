@@ -1,17 +1,27 @@
 import java.awt.Color;
+import java.io.PrintStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import gnu.io.CommPortIdentifier; 
+import gnu.io.SerialPort;
+import gnu.io.SerialPortEvent; 
+import gnu.io.SerialPortEventListener; 
+import java.util.Enumeration;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MenuController implements MenuListener {
 
-    private Paintable _view;
-    private PancakeModel _model;
+    private Paintable _view; private PancakeModel _model;
     private PancakePathSolver _pathSolver;
-    private PancakeCompiler _pancakeCompiler;
+    private PancakeRecipeStream _recipeStream;
 
     public MenuController(Paintable view, PancakeModel model) {
         _view = view;
         _model = model;
         _pathSolver = new PancakePathSolver();
-        _pancakeCompiler = new PancakeCompiler();
+        _recipeStream = new PancakeRecipeStream();
     }
 
     public void onMenuEvent(MenuEvent event) {
@@ -35,8 +45,10 @@ public class MenuController implements MenuListener {
             case CLEAR:
                 clearGrid();
                 break;
-            case SOLVE:
-                solvePath();
+            case PRINT:
+                Recipe recipe = solvePath();
+                animateRecipe(recipe);
+                sendRecipe(recipe);
                 break;
         }
         _view.repaint(_model);
@@ -51,9 +63,8 @@ public class MenuController implements MenuListener {
         }
     }
 
-    private void solvePath() {
-        Recipe recipe = _pathSolver.solve(_model.getGrid());
-        animateRecipe(recipe);
+    private Recipe solvePath() {
+        return _pathSolver.solve(_model.getGrid());
     }
 
     private void animateRecipe(Recipe recipe) {
@@ -68,8 +79,9 @@ public class MenuController implements MenuListener {
                 _view.repaint(_model);
             }
         });
+    }
 
-        String res = _pancakeCompiler.compile(recipe);
-        System.out.println(res);
+    private void sendRecipe(Recipe recipe) {
+        _recipeStream.sendRecipe(recipe);
     }
 }

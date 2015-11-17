@@ -21,7 +21,7 @@ public class RecipeAnimator {
         final Grid<Color> grid = _model.getGrid();
         final List<Phase> phases = _recipe.getPhases();
 
-        final Timer t = new Timer(20, new ActionListener() {
+        final Timer t = new Timer(50, new ActionListener() {
             int phaseIndex = 0;
             int strokeIndex = 0;
             int pointIndex = 0;

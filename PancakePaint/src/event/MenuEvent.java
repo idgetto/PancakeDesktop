@@ -5,5 +5,5 @@ public enum MenuEvent {
     YELLOW,
     BROWN,
     CLEAR,
-    SOLVE
+    PRINT
 }

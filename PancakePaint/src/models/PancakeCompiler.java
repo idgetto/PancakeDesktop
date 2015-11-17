@@ -33,6 +33,7 @@ public class PancakeCompiler {
         // turn the grill off when done
         buf.append("EXTRUDE 0;\n");
         buf.append("TEMP 0;\n");
+        buf.append("DONE;\n");
 
         return buf.toString();
     }
