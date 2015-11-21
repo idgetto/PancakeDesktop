@@ -2,25 +2,28 @@ import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import gnu.io.CommPortIdentifier; 
+import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
-import gnu.io.SerialPortEvent; 
-import gnu.io.SerialPortEventListener; 
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
 import java.util.Enumeration;
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class SerialStream implements SerialPortEventListener {
 
+    private Queue<String> messageQueue;
     private SerialPort serialPort;
         /** The port we're normally going to use. */
-    private static final String PORT_NAMES[] = { 
+    private static final String PORT_NAMES[] = {
             "/dev/tty.usbserial-A9007UX1", // Mac OS X
             "/dev/ttyACM0", // Raspberry Pi
             "/dev/ttyUSB0", // Linux
             "COM3", // Windows
     };
     /**
-    * A BufferedReader which will be fed by a InputStreamReader 
-    * converting the bytes into characters 
+    * A BufferedReader which will be fed by a InputStreamReader
+    * converting the bytes into characters
     * making the displayed results codepage independent
     */
     private BufferedReader input;
@@ -32,11 +35,12 @@ public class SerialStream implements SerialPortEventListener {
     private static final int DATA_RATE = 9600;
 
     public SerialStream() {
+        messageQueue = new LinkedList<String>();
         initialize();
     }
 
     public void initialize() {
-                // the next line is for Raspberry Pi and 
+                // the next line is for Raspberry Pi and
                 // gets us into the while loop and was suggested here was suggested http://www.raspberrypi.org/phpBB3/viewtopic.php?f=81&t=32186
                 // System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyACM0");
 
@@ -103,6 +107,13 @@ public class SerialStream implements SerialPortEventListener {
         }
     }
 
+    public synchronized String readMessage() {
+        if (messageQueue.isEmpty()) {
+            return null;
+        }
+        return messageQueue.remove();
+    }
+
     /**
      * Handle an event on the serial port. Read the data and print it.
      */
@@ -110,7 +121,8 @@ public class SerialStream implements SerialPortEventListener {
         if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             try {
                 String inputLine = input.readLine();
-                System.out.println(inputLine);
+                System.out.println("SerialStream: " + inputLine);
+                messageQueue.add(inputLine);
             } catch (Exception e) {
                 System.err.println(e.toString());
             }

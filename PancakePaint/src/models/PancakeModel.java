@@ -2,8 +2,8 @@ import java.awt.Color;
 
 public class PancakeModel {
 
-    private static final int ROWS = 30;
-    private static final int COLS = 60;
+    private static final int ROWS = 44;
+    private static final int COLS = 64;
 
     private Grid<Color> _grid;
     private PancakePaintBrush _brush;
