@@ -1,16 +1,21 @@
 import java.util.List;
+import java.util.Queue;
+import java.util.LinkedList;
 import java.awt.Point;
+import java.text.DecimalFormat;
 
 public class PancakeCompiler {
 
     private static final double SCALE = 5;
+    private DecimalFormat formatter;
 
-    public String compile(Recipe recipe) {
-        StringBuffer buf = new StringBuffer();
+    public Queue<String> compile(Recipe recipe) {
+        Queue<String> queue = new LinkedList<String>();
+        formatter = new DecimalFormat("0.#");
 
         // start with the grill on
-        buf.append("TEMP 300\n");
-        buf.append("EXTRUDE 0\n");
+        queue.add("T 300\n");
+        queue.add("E 0\n");
 
         for (Phase phase : recipe.getPhases()) {
             for (Stroke stroke : phase.getStrokes()) {
@@ -18,40 +23,44 @@ public class PancakeCompiler {
 
                 // move to the first point and start extruding
                 Point first = points.get(0);
-                appendMove(buf, first.x, first.y);
-                buf.append("EXTRUDE 1\n");
+                appendMove(queue, first.x, first.y);
+                queue.add("E 1\n");
 
                 for (Point point : points) {
-                    appendMove(buf, point.x, point.y);
+                    appendMove(queue, point.x, point.y);
                 }
 
                 // stop extruding
-                buf.append("EXTRUDE 0\n");
+                queue.add("E 0\n");
             }
 
-            appendDelay(buf, phase.getEndDelay());
+            appendDelay(queue, phase.getEndDelay());
         }
 
         // turn the grill off when done
-        buf.append("EXTRUDE 0\n");
-        buf.append("TEMP 0\n");
-        buf.append("DONE\n");
+        queue.add("E 0\n");
+        queue.add("T 0\n");
+        queue.add("D\n");
 
-        return buf.toString();
+        return queue;
     }
 
-    private void appendDelay(StringBuffer buf, long delay) {
-            buf.append("DELAY ");
-            buf.append(delay);
-            buf.append("\n");
+    private void appendDelay(Queue<String> queue, long delay) {
+        StringBuffer buf = new StringBuffer();
+        buf.append("W ");
+        buf.append(delay);
+        buf.append("\n");
+        queue.add(buf.toString());
     }
 
-    private void appendMove(StringBuffer buf, float x, float y) {
-                buf.append("MOVE ");
-                buf.append(x * SCALE); // will need to multiply by coeff
-                buf.append(" ");
-                buf.append(y * SCALE);
-                buf.append("\n");
+    private void appendMove(Queue<String> queue, float x, float y) {
+        StringBuffer buf = new StringBuffer();
+        buf.append("M ");
+        buf.append(formatter.format(x * SCALE));
+        buf.append(" ");
+        buf.append(formatter.format(y * SCALE));
+        buf.append("\n");
+        queue.add(buf.toString());
     }
 
 }

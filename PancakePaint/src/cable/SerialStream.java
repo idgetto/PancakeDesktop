@@ -32,7 +32,7 @@ public class SerialStream implements SerialPortEventListener {
     /** Milliseconds to block while waiting for port open */
     private static final int TIME_OUT = 2000;
     /** Default bits per second for COM port. */
-    private static final int DATA_RATE = 9600;
+    private static final int DATA_RATE = 115200;
 
     public SerialStream() {
         messageQueue = new LinkedList<String>();
@@ -99,7 +99,7 @@ public class SerialStream implements SerialPortEventListener {
 
     public synchronized void send(String msg) {
         if (output != null) {
-            output.println(msg);
+            output.print(msg);
             output.flush();
         } else {
             System.err.println("Could not communicate with a serial device");
@@ -120,6 +120,7 @@ public class SerialStream implements SerialPortEventListener {
         if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             try {
                 String inputLine = input.readLine();
+                System.out.println(inputLine);
                 messageQueue.add(inputLine);
             } catch (Exception e) {
                 System.err.println(e.toString());

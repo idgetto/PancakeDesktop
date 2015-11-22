@@ -1,7 +1,12 @@
+import java.util.List;
+import java.util.Queue;
+import java.util.LinkedList;
+
 public class SendRecipeTask implements Runnable {
     private static final String BEGIN_RECIPE = "BEGIN RECIPE";
     private static final String READY_MESSAGE = "READY";
     private static final String DONE_MESSAGE = "DONE";
+    private static final int SERIAL_BUFFER_SIZE = 64;
 
     private Recipe _recipe;
     private PancakeCompiler _pancakeCompiler;
@@ -14,47 +19,50 @@ public class SendRecipeTask implements Runnable {
     }
 
     public void run() {
-        String recipeString = _pancakeCompiler.compile(_recipe);
-        System.out.println(recipeString);
-        String[] instructions = recipeString.split("\\n");
+        Queue<String> commandQueue = _pancakeCompiler.compile(_recipe);
 
         beginRecipe();
-        waitForReady();
-        for (String command : instructions) {
-            System.out.println("Sending " + command);
-            _serialStream.send(command);
-            if (!command.equals(DONE_MESSAGE)) {
-                waitForCommandCompleted(command);
-                System.out.println("Completed " + command);
+        while (!commandQueue.isEmpty()) {
+            String commands = getCommandBuffer(commandQueue);
+            waitForReadyMessage();
+            _serialStream.send(commands);
+            System.out.println("Sending:\n" + commands + "\n");
+        }
+
+    }
+
+    // Send a sequence of commands that will
+    // fit within the arduinos serial buffer
+    private String getCommandBuffer(Queue<String> commands) {
+        StringBuffer buf = new StringBuffer();
+        while (buf.length() < SERIAL_BUFFER_SIZE) {
+            if (commands.isEmpty()) {
+                return buf.toString();
+            }
+
+            String next = commands.remove();
+            if (buf.length() + next.length() < SERIAL_BUFFER_SIZE) {
+                buf.append(next);
+            } else {
+                return buf.toString();
             }
         }
+
+        return buf.toString();
     }
 
     private void beginRecipe() {
         _serialStream.send(BEGIN_RECIPE);
+        System.out.println("Starting print job");
     }
 
-    private void waitForReady() {
-        System.out.println("Waiting for printer ready");
+    private void waitForReadyMessage() {
         boolean ready = false;
         while (!ready) {
             String msg = _serialStream.readMessage();
 
             if (msg != null && msg.equals(READY_MESSAGE)) {
-                System.out.println("Starting print job");
                 ready = true;
-            }
-        }
-    }
-
-    private void waitForCommandCompleted(String command) {
-        boolean completedCommand = false;
-        String completedMessage = "Completed: \"" + command + "\"";
-        while (!completedCommand) {
-            String msg = _serialStream.readMessage();
-
-            if (msg != null && msg.equals(completedMessage)) {
-                completedCommand = true;
             }
         }
     }
