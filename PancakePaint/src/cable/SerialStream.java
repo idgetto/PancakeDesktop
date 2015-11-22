@@ -99,7 +99,6 @@ public class SerialStream implements SerialPortEventListener {
 
     public synchronized void send(String msg) {
         if (output != null) {
-            System.out.println(msg);
             output.println(msg);
             output.flush();
         } else {
@@ -121,7 +120,6 @@ public class SerialStream implements SerialPortEventListener {
         if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
             try {
                 String inputLine = input.readLine();
-                System.out.println("SerialStream: " + inputLine);
                 messageQueue.add(inputLine);
             } catch (Exception e) {
                 System.err.println(e.toString());

@@ -3,6 +3,8 @@ import java.awt.Point;
 
 public class PancakeCompiler {
 
+    private static final double SCALE = 5;
+
     public String compile(Recipe recipe) {
         StringBuffer buf = new StringBuffer();
 
@@ -46,9 +48,9 @@ public class PancakeCompiler {
 
     private void appendMove(StringBuffer buf, float x, float y) {
                 buf.append("MOVE ");
-                buf.append(x); // will need to multiply by coeff
+                buf.append(x * SCALE); // will need to multiply by coeff
                 buf.append(" ");
-                buf.append(y);
+                buf.append(y * SCALE);
                 buf.append("\n");
     }
 

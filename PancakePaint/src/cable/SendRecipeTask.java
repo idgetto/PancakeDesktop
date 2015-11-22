@@ -21,9 +21,11 @@ public class SendRecipeTask implements Runnable {
         beginRecipe();
         waitForReady();
         for (String command : instructions) {
+            System.out.println("Sending " + command);
             _serialStream.send(command);
             if (!command.equals(DONE_MESSAGE)) {
                 waitForCommandCompleted(command);
+                System.out.println("Completed " + command);
             }
         }
     }
@@ -33,12 +35,13 @@ public class SendRecipeTask implements Runnable {
     }
 
     private void waitForReady() {
-        System.out.println("Waiting for ready");
+        System.out.println("Waiting for printer ready");
         boolean ready = false;
         while (!ready) {
             String msg = _serialStream.readMessage();
 
             if (msg != null && msg.equals(READY_MESSAGE)) {
+                System.out.println("Starting print job");
                 ready = true;
             }
         }
@@ -47,7 +50,6 @@ public class SendRecipeTask implements Runnable {
     private void waitForCommandCompleted(String command) {
         boolean completedCommand = false;
         String completedMessage = "Completed: \"" + command + "\"";
-        System.out.println("Waiting for " + completedMessage);
         while (!completedCommand) {
             String msg = _serialStream.readMessage();
 
