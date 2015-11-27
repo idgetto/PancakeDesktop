@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 import java.awt.Color;
 
 public class PancakeModel {
@@ -7,6 +8,7 @@ public class PancakeModel {
     private PancakePaintBrush _brush;
 
     public PancakeModel() {
+        _strokes = new ArrayList<Stroke>();
         _brush = new PancakePaintBrush();
     }
 

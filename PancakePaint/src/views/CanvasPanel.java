@@ -1,6 +1,8 @@
 import javax.swing.JPanel;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.util.List;
 
 public class CanvasPanel extends JPanel {
 
@@ -25,13 +27,33 @@ public class CanvasPanel extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setColor(PancakePallete.WHITE);
-        g.fillRect(0, 0, _width, _height);
+        paintBackground(g);
+        paintStrokes(g, _model.getStrokes());
     }
 
     public void repaint(PancakeModel model) {
         _model = model;
         repaint();
+    }
+
+    private void paintBackground(Graphics g) {
+        g.setColor(PancakePallete.WHITE);
+        g.fillRect(0, 0, _width, _height);
+    }
+
+    private void paintStrokes(Graphics g, List<Stroke> strokes) {
+        for (Stroke stroke : strokes) {
+            paintStroke(g, stroke);
+        }
+    }
+
+    private void paintStroke(Graphics g, Stroke stroke) {
+        List<Point> points = stroke.getPoints();
+        for (int i = 0; i < points.size() - 1; ++i) {
+            Point a = points.get(i);
+            Point b = points.get(i + 1);
+            g.drawLine(a.x, a.y, b.x, b.y);
+        }
     }
 
 }
