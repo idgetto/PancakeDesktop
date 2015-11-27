@@ -17,7 +17,7 @@ public class PancakePaintFrame extends JFrame {
     private static final int FRAME_HEIGHT = GRILL_HEIGHT + MENU_HEIGHT;
 
     private MenuPanel _menuPanel;
-    private GridPanel _gridPanel;
+    private CanvasPanel _canvasPanel;
 
     public PancakePaintFrame(PancakeModel model) {
         super("Pancake Paint");
@@ -28,15 +28,15 @@ public class PancakePaintFrame extends JFrame {
 
     public void repaint(PancakeModel model) {
         _menuPanel.repaint(model);
-        _gridPanel.repaint(model);
+        _canvasPanel.repaint(model);
     }
 
     public void setMenuListener(MenuListener listener) {
         _menuPanel.setMenuListener(listener);
     }
 
-    public void setGridListener(GridListener listener) {
-        _gridPanel.setGridListener(listener);
+    public void setCanvasListener(CanvasListener listener) {
+        _canvasPanel.setCanvasListener(listener);
     }
 
     private void setupWindow() {
@@ -47,10 +47,10 @@ public class PancakePaintFrame extends JFrame {
 
     private void addComponents(PancakeModel model) {
         _menuPanel = new MenuPanel(MENU_WIDTH, MENU_HEIGHT);
-        _gridPanel = new GridPanel(model, GRILL_WIDTH, GRILL_HEIGHT);
+        _canvasPanel = new CanvasPanel(model, GRILL_WIDTH, GRILL_HEIGHT);
 
         add(_menuPanel, BorderLayout.PAGE_START);
-        add(_gridPanel, BorderLayout.PAGE_END);
+        add(_canvasPanel, BorderLayout.PAGE_END);
         pack();
     }
 

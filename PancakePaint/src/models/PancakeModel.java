@@ -1,24 +1,21 @@
-import java.awt.Color; 
+import java.util.List;
+import java.awt.Color;
 
 public class PancakeModel {
 
-    private static final int ROWS = 44;
-    private static final int COLS = 64;
-
-    private Grid<Color> _grid;
+    private List<Stroke> _strokes;
     private PancakePaintBrush _brush;
 
     public PancakeModel() {
-        _grid = new Grid<Color>(ROWS, COLS, PancakePallete.WHITE);
         _brush = new PancakePaintBrush();
     }
 
-    public Grid<Color> getGrid() {
-        return _grid;
+    public List<Stroke> getStrokes() {
+        return _strokes;
     }
 
-    public void setGrid(Grid<Color> grid) {
-        _grid = grid;
+    public void setStrokes(List<Stroke> strokes) {
+        _strokes = strokes;
     }
 
     public PancakePaintBrush getBrush() {

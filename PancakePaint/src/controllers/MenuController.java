@@ -1,15 +1,4 @@
-import java.awt.Color;
-import java.io.PrintStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import gnu.io.CommPortIdentifier; 
-import gnu.io.SerialPort;
-import gnu.io.SerialPortEvent; 
-import gnu.io.SerialPortEventListener; 
-import java.util.Enumeration;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
 
 public class MenuController implements MenuListener {
 
@@ -43,7 +32,7 @@ public class MenuController implements MenuListener {
                 brush.setColor(PancakePallete.BROWN);
                 break;
             case CLEAR:
-                clearGrid();
+                clearCanvas();
                 break;
             case PRINT:
                 Recipe recipe = solvePath();
@@ -54,31 +43,15 @@ public class MenuController implements MenuListener {
         _view.repaint(_model);
     }
 
-    private void clearGrid() {
-        Grid<Color> grid = _model.getGrid();
-        for (int row = 0; row < grid.getNumRows(); ++row) {
-            for (int col = 0; col < grid.getNumCols(); ++col) {
-                grid.set(row, col, PancakePallete.WHITE);
-            }
-        }
+    private void clearCanvas() {
+        _model.setStrokes(new ArrayList<Stroke>());
     }
 
     private Recipe solvePath() {
-        return _pathSolver.solve(_model.getGrid());
+        return _pathSolver.solve(_model.getStrokes());
     }
 
     private void animateRecipe(Recipe recipe) {
-        PancakeModel solveModel = new PancakeModel();
-        PancakePaintBrush brush = solveModel.getBrush();
-        brush.setColor(PancakePallete.GREEN);
-        solveModel.setGrid(new Grid<Color>(_model.getGrid()));
-
-        RecipeAnimator animator = new RecipeAnimator(recipe, solveModel, _view);
-        animator.run(new Callback() {
-            public void run() {
-                _view.repaint(_model);
-            }
-        });
     }
 
     private void sendRecipe(Recipe recipe) {
