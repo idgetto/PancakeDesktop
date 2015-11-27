@@ -1,3 +1,4 @@
+import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -6,6 +7,8 @@ import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
 import java.util.Enumeration;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class SerialTest implements SerialPortEventListener {
@@ -24,7 +27,7 @@ public class SerialTest implements SerialPortEventListener {
     */
     private BufferedReader input;
     /** The output stream to the port */
-    private OutputStream output;
+    private PrintStream output;
     /** Milliseconds to block while waiting for port open */
     private static final int TIME_OUT = 2000;
     /** Default bits per second for COM port. */
@@ -68,7 +71,7 @@ public class SerialTest implements SerialPortEventListener {
 
             // open the streams
             input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
-            output = serialPort.getOutputStream();
+            output = new PrintStream(serialPort.getOutputStream());
 
             // add event listeners
             serialPort.addEventListener(this);
@@ -87,6 +90,10 @@ public class SerialTest implements SerialPortEventListener {
             serialPort.removeEventListener();
             serialPort.close();
         }
+    }
+
+    public void println(String s) {
+        output.println(s);
     }
 
     /**
@@ -109,6 +116,10 @@ public class SerialTest implements SerialPortEventListener {
         main.initialize();
         System.out.println("Started");
 
+
+        main.println("Hi;   ");
+        main.println("Hi there;\n");
+        main.println("Tada;");
         Thread t=new Thread() {
             public void run() {
                 //the following line will keep this app alive for 1000 seconds,

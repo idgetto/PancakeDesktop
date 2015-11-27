@@ -9,12 +9,28 @@ void setup() {
 }
 
 void loop() {
-  out_test();
+  //out_test();
+  in_test();
 }
 
 void out_test() {
   Serial.println("out test");
   delay(500);
+}
+
+void in_test() {
+  if (Serial.available() > 0) {
+      String str = Serial.readStringUntil('\n');
+      str.trim();
+      if (str.length() == 0) {
+        return;
+      }
+      
+      
+      Serial.print("Got ");
+      Serial.println(str);
+      delay(500);
+  }
 }
 
 //void loop() {
