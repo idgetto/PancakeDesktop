@@ -16,15 +16,6 @@ public class MenuController implements MenuListener {
     public void onMenuEvent(MenuEvent event) {
         PancakePaintBrush brush = _model.getBrush();
         switch (event) {
-            case PENCIL:
-                brush.setMode(PancakePaintBrush.BrushMode.PENCIL);
-                break;
-            case FILL:
-                brush.setMode(PancakePaintBrush.BrushMode.FILL);
-                break;
-            case ERASE:
-                brush.setMode(PancakePaintBrush.BrushMode.ERASE);
-                break;
             case YELLOW:
                 brush.setColor(PancakePallete.YELLOW);
                 break;

@@ -17,14 +17,9 @@ import java.awt.FlowLayout;
 import java.awt.Button;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
 
 public class MenuPanel extends JPanel {
 
-    private JRadioButton _pencilButton;
-    private JRadioButton _fillButton;
-    private JRadioButton _eraseButton;
     private Button _yellowButton;
     private Button _brownButton;
     private Button _clearButton;
@@ -48,15 +43,7 @@ public class MenuPanel extends JPanel {
         setupButtons();
 
         setLayout(new FlowLayout());
-        
-        ButtonGroup strokeGroup = new ButtonGroup();
-        strokeGroup.add(_pencilButton);
-        strokeGroup.add(_fillButton);
-        strokeGroup.add(_eraseButton);
 
-        add(_pencilButton);
-        add(_fillButton);
-        add(_eraseButton);
         add(_yellowButton);
         add(_brownButton);
         add(_clearButton);
@@ -64,27 +51,6 @@ public class MenuPanel extends JPanel {
     }
 
     private void setupButtons() {
-        _pencilButton = new JRadioButton("Pencil");        
-        _pencilButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                _menuListener.onMenuEvent(MenuEvent.PENCIL);
-            }
-        });
-
-        _fillButton = new JRadioButton("Fill");
-        _fillButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                _menuListener.onMenuEvent(MenuEvent.FILL);
-            }
-        });
-
-        _eraseButton = new JRadioButton("Erase");
-        _eraseButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                _menuListener.onMenuEvent(MenuEvent.ERASE);
-            }
-        });
-
         _yellowButton = new Button("Yellow");
         _yellowButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
