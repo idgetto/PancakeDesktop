@@ -1,3 +1,9 @@
+import controllers.CanvasController;
+import controllers.MenuController;
+import models.PancakeModel;
+import views.Paintable;
+import views.PancakePaintFrame;
+
 public class PancakePaint implements Paintable {
 
     private PancakeModel _model;

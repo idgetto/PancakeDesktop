@@ -1,3 +1,9 @@
+package views;
+
+import event.CanvasListener;
+import event.MenuListener;
+import models.PancakeModel;
+
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.Point;

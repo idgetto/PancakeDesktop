@@ -1,3 +1,8 @@
+package cable;
+
+import models.PancakeCompiler;
+import solver.Recipe;
+
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

@@ -1,3 +1,16 @@
+package controllers;
+
+import cable.PancakeRecipeStream;
+import event.MenuEvent;
+import event.MenuListener;
+import models.PancakeModel;
+import models.PancakePaintBrush;
+import solver.PancakePathSolver;
+import solver.Recipe;
+import solver.Stroke;
+import views.Paintable;
+import views.PancakePallete;
+
 import java.util.ArrayList;
 
 public class MenuController implements MenuListener {

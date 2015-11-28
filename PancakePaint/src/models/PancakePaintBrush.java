@@ -1,3 +1,7 @@
+package models;
+
+import views.PancakePallete;
+
 import java.awt.Color;
 
 public class PancakePaintBrush {

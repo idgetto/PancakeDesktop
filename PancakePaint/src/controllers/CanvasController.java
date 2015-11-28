@@ -1,3 +1,10 @@
+package controllers;
+
+import event.CanvasEvent;
+import event.CanvasListener;
+import models.PancakeModel;
+import views.Paintable;
+
 public class CanvasController implements CanvasListener {
 
     private Paintable _context;

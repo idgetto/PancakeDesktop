@@ -1,3 +1,5 @@
+package solver;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.Point;

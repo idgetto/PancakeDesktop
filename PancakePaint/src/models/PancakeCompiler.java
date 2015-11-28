@@ -1,3 +1,9 @@
+package models;
+
+import solver.Phase;
+import solver.Recipe;
+import solver.Stroke;
+
 import java.util.List;
 import java.util.Queue;
 import java.util.LinkedList;

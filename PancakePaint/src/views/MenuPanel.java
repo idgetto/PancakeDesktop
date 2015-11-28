@@ -1,3 +1,9 @@
+package views;
+
+import event.MenuEvent;
+import event.MenuListener;
+import models.PancakeModel;
+
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import java.awt.Color;

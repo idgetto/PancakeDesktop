@@ -1,3 +1,5 @@
+package views;
+
 import java.awt.Color;
 
 public class PancakePallete {

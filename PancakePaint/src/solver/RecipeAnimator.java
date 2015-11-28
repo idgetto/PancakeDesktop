@@ -1,3 +1,8 @@
+package solver;
+
+import models.PancakeModel;
+import views.Paintable;
+
 import java.util.List;
 import java.awt.Point;
 import java.awt.Color;
