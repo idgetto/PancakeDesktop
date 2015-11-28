@@ -5,9 +5,8 @@ import models.Stroke;
 
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.List;
 
 public class CanvasPanel extends JPanel {
@@ -53,16 +52,36 @@ public class CanvasPanel extends JPanel {
         for (Stroke stroke : strokes) {
             paintStroke(g, stroke);
         }
+
+        paintMousePreview(g);
     }
 
     private void paintStroke(Graphics g, Stroke stroke) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(4));
 
         List<Point> points = stroke.getPoints();
-        g.setColor(stroke.getColor());
+        g2.setColor(stroke.getColor());
         for (int i = 0; i < points.size() - 1; ++i) {
             Point a = points.get(i);
             Point b = points.get(i + 1);
-            g.drawLine(a.x, a.y, b.x, b.y);
+            g2.drawLine(a.x, a.y, b.x, b.y);
+        }
+    }
+
+    private void paintMousePreview(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(4));
+
+        List<Stroke> strokes = _model.getStrokes();
+        Stroke stroke = strokes.get(strokes.size() - 1);
+
+        // show preview of next line where mouse is
+        if (!stroke.getPoints().isEmpty()) {
+            Point a = stroke.getLastPoint();
+            Point b = _model.getMouseLocation();
+            g2.setColor(stroke.getColor().brighter());
+            g2.drawLine(a.x, a.y, b.x, b.y);
         }
     }
 
