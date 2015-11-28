@@ -43,7 +43,8 @@ public class MenuController implements MenuListener {
                 break;
             case PRINT:
                 Recipe recipe = solvePath();
-                animateRecipe(recipe);
+                System.out.println("Recipe: " + recipe);
+                //animateRecipe(recipe);
                 sendRecipe(recipe);
                 break;
         }
