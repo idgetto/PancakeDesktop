@@ -1,8 +1,9 @@
 package solver;
 
+import models.Stroke;
+
 import java.util.List;
 import java.util.ArrayList;
-import java.awt.Point;
 
 public class Phase {
     private List<Stroke> _strokes;

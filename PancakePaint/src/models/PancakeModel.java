@@ -1,10 +1,7 @@
 package models;
 
-import solver.Stroke;
-
 import java.util.List;
 import java.util.ArrayList;
-import java.awt.Color;
 
 public class PancakeModel {
 

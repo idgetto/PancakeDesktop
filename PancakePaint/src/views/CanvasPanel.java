@@ -2,7 +2,7 @@ package views;
 
 import event.CanvasListener;
 import models.PancakeModel;
-import solver.Stroke;
+import models.Stroke;
 
 import javax.swing.JPanel;
 import java.awt.Dimension;

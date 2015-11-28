@@ -7,7 +7,7 @@ import models.PancakeModel;
 import models.PancakePaintBrush;
 import solver.PancakePathSolver;
 import solver.Recipe;
-import solver.Stroke;
+import models.Stroke;
 import views.Paintable;
 import views.PancakePallete;
 
@@ -29,6 +29,9 @@ public class MenuController implements MenuListener {
     public void onMenuEvent(MenuEvent event) {
         PancakePaintBrush brush = _model.getBrush();
         switch (event) {
+            case LINEAR_STROKE:
+                brush.setMode(PancakePaintBrush.BrushMode.LINEAR_STROKE);
+                break;
             case YELLOW:
                 brush.setColor(PancakePallete.YELLOW);
                 break;

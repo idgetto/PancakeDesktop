@@ -7,9 +7,7 @@ import java.awt.Color;
 public class PancakePaintBrush {
 
     public enum BrushMode {
-        PENCIL,
-        ERASE,
-        FILL
+        LINEAR_STROKE
     }
 
     private Color _color ;
@@ -17,7 +15,7 @@ public class PancakePaintBrush {
 
     public PancakePaintBrush() {
         _color = PancakePallete.YELLOW;
-        _mode = BrushMode.PENCIL;
+        _mode = BrushMode.LINEAR_STROKE;
     }
 
     public void setColor(Color color) {
