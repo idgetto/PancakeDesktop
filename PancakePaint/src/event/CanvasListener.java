@@ -1,7 +1,7 @@
 package event;
 
-public interface CanvasListener {
-    void onTouch(CanvasEvent e);
-    void onMove(CanvasEvent e);
-    void onRelease(CanvasEvent e);
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+
+public interface CanvasListener extends MouseListener, MouseMotionListener {
 }

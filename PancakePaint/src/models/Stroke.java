@@ -1,11 +1,13 @@
 package models;
 
+import java.awt.Color;
+import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
-import java.awt.Point;
 
 public class Stroke {
     private List<Point> _points;
+    private Color _color;
 
     public Stroke() {
         _points = new ArrayList<Point>();
@@ -25,5 +27,13 @@ public class Stroke {
         } else {
             return _points.get(_points.size() - 1);
         }
+    }
+
+    public Color getColor() {
+        return _color;
+    }
+
+    public void setColor(Color color) {
+        _color = color;
     }
 }

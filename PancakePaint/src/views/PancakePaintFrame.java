@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Color;
 import javax.swing.Timer;
+import javax.swing.event.MouseInputListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -41,7 +42,7 @@ public class PancakePaintFrame extends JFrame {
         _menuPanel.setMenuListener(listener);
     }
 
-    public void setCanvasListener(CanvasListener listener) {
+    public void setCanvasListener(MouseInputListener listener) {
         _canvasPanel.setCanvasListener(listener);
     }
 

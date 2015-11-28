@@ -1,10 +1,10 @@
 package views;
 
-import event.CanvasListener;
 import models.PancakeModel;
 import models.Stroke;
 
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputListener;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -15,7 +15,7 @@ public class CanvasPanel extends JPanel {
     private PancakeModel _model;
     private int _width;
     private int _height;
-    private CanvasListener _listener;
+    private MouseInputListener _listener;
 
     public CanvasPanel(PancakeModel model, int width, int height) {
         _model = model;
@@ -23,8 +23,10 @@ public class CanvasPanel extends JPanel {
         _height = height;
     }
 
-    public void setCanvasListener(CanvasListener listener) {
+    public void setCanvasListener(MouseInputListener listener) {
         _listener = listener;
+        addMouseListener(_listener);
+        addMouseMotionListener(_listener);
     }
 
     public Dimension getPreferredSize() {
@@ -54,7 +56,9 @@ public class CanvasPanel extends JPanel {
     }
 
     private void paintStroke(Graphics g, Stroke stroke) {
+
         List<Point> points = stroke.getPoints();
+        g.setColor(stroke.getColor());
         for (int i = 0; i < points.size() - 1; ++i) {
             Point a = points.get(i);
             Point b = points.get(i + 1);
