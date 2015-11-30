@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 public class MenuPanel extends JPanel {
 
     private Button _linearStrokeButton;
+    private Button _curvedStrokeButton;
     private Button _yellowButton;
     private Button _brownButton;
     private Button _clearButton;
@@ -52,6 +53,7 @@ public class MenuPanel extends JPanel {
         setLayout(new FlowLayout());
 
         add(_linearStrokeButton);
+        add(_curvedStrokeButton);
         add(_yellowButton);
         add(_brownButton);
         add(_clearButton);
@@ -63,6 +65,13 @@ public class MenuPanel extends JPanel {
         _linearStrokeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
                 _menuListener.onMenuEvent(MenuEvent.LINEAR_STROKE);
+            }
+        });
+
+        _curvedStrokeButton = new Button("Curved Stroke");
+        _curvedStrokeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                _menuListener.onMenuEvent(MenuEvent.CURVED_STROKE);
             }
         });
 

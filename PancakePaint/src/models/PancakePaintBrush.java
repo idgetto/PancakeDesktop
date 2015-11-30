@@ -7,7 +7,8 @@ import java.awt.Color;
 public class PancakePaintBrush {
 
     public enum BrushMode {
-        LINEAR_STROKE
+        LINEAR_STROKE,
+        CURVED_STROKE
     }
 
     private Color _color ;

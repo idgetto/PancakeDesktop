@@ -2,6 +2,8 @@ package controllers;
 
 import event.CanvasEvent;
 import event.CanvasListener;
+import models.CurvedStroke;
+import models.LinearStroke;
 import models.PancakeModel;
 import models.Stroke;
 import views.Paintable;
@@ -22,7 +24,20 @@ public class CanvasController implements MouseInputListener {
     public CanvasController(Paintable context, PancakeModel model) {
         _context = context;
         _model = model;
-        _currentStroke = new Stroke();
+    }
+
+    public void setupStroke() {
+        switch (_model.getBrush().getMode()) {
+            case LINEAR_STROKE:
+                System.out.println("linear mode");
+                _currentStroke = new LinearStroke();
+                break;
+            case CURVED_STROKE:
+                System.out.println("curved mode");
+                _currentStroke = new CurvedStroke();
+                break;
+        }
+
         _currentStroke.setColor(_model.getBrush().getColor());
         List<Stroke> strokes = _model.getStrokes();
         strokes.add(_currentStroke);
@@ -30,22 +45,24 @@ public class CanvasController implements MouseInputListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        System.out.println("Clicked: " + mouseEvent.getPoint());
-
-        // set the stroke color to the brush color
-        if (_currentStroke.getPoints().isEmpty()) {
-            _currentStroke.setColor(_model.getBrush().getColor());
-        }
-
-        _currentStroke.addPoint(mouseEvent.getPoint());
-
         int modifiers = mouseEvent.getModifiers();
         if (isRightClick(modifiers)) {
             System.out.println("Right Click: " + mouseEvent.getPoint());
+            _currentStroke = null;
+        } else {
+            System.out.println("Clicked: " + mouseEvent.getPoint());
 
-            _currentStroke = new Stroke();
-            List<Stroke> strokes = _model.getStrokes();
-            strokes.add(_currentStroke);
+            if (_currentStroke == null) {
+                setupStroke();
+            }
+
+            // set the stroke color to the brush color
+            if (_currentStroke.getPoints().isEmpty()) {
+                _currentStroke.setColor(_model.getBrush().getColor());
+            }
+
+            _currentStroke.addPoint(mouseEvent.getPoint());
+
         }
 
         setMouseLocation(mouseEvent);

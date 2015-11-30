@@ -32,6 +32,9 @@ public class MenuController implements MenuListener {
             case LINEAR_STROKE:
                 brush.setMode(PancakePaintBrush.BrushMode.LINEAR_STROKE);
                 break;
+            case CURVED_STROKE:
+                brush.setMode(PancakePaintBrush.BrushMode.CURVED_STROKE);
+                break;
             case YELLOW:
                 brush.setColor(PancakePallete.YELLOW);
                 break;

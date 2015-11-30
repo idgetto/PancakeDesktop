@@ -53,20 +53,12 @@ public class CanvasPanel extends JPanel {
             paintStroke(g, stroke);
         }
 
-        paintMousePreview(g);
+        // paintMousePreview(g);
     }
 
     private void paintStroke(Graphics g, Stroke stroke) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(4));
-
-        List<Point> points = stroke.getPoints();
-        g2.setColor(stroke.getColor());
-        for (int i = 0; i < points.size() - 1; ++i) {
-            Point a = points.get(i);
-            Point b = points.get(i + 1);
-            g2.drawLine(a.x, a.y, b.x, b.y);
-        }
+        stroke.paint(g2);
     }
 
     private void paintMousePreview(Graphics g) {
@@ -75,10 +67,11 @@ public class CanvasPanel extends JPanel {
 
         List<Stroke> strokes = _model.getStrokes();
         Stroke stroke = strokes.get(strokes.size() - 1);
+        List<Point> points = stroke.getPoints();
 
         // show preview of next line where mouse is
-        if (!stroke.getPoints().isEmpty()) {
-            Point a = stroke.getLastPoint();
+        if (!points.isEmpty()) {
+            Point a = points.get(points.size() - 1);
             Point b = _model.getMouseLocation();
             g2.setColor(stroke.getColor().brighter());
             g2.drawLine(a.x, a.y, b.x, b.y);
