@@ -25,6 +25,10 @@ public class CompositeCubicCurve {
         calculateSplines(_points);
     }
 
+    public List<Point> getPoints() {
+        return _points;
+    }
+
     public List<Point> interpolate() {
         if (_xSpline == null || _ySpline == null) {
             return _points;
