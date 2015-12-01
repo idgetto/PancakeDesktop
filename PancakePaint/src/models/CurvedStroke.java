@@ -38,10 +38,10 @@ public class CurvedStroke implements Stroke {
         }
     }
 
-//    private void drawControlPoints(Graphics2D g2) {
+    private void drawControlPoints(Graphics2D g2) {
 //        g2.setStroke(new BasicStroke(4));
 //        g2.setColor(PancakePallete.GREEN);
-//        for (Point point : _curve.getControlPoints()) {
+//        for (Point point : _curve.getPoints()) {
 //            int w = 10;
 //            int h = 10;
 //            int x = point.x - (w / 2);
@@ -49,7 +49,7 @@ public class CurvedStroke implements Stroke {
 //            Ellipse2D.Double circle = new Ellipse2D.Double(x, y, w, h);
 //            g2.fill(circle);
 //        }
-//    }
+    }
 
     @Override
     public void addPoint(Point point) {

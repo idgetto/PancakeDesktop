@@ -1,5 +1,7 @@
 package models;
 
+import Jama.Matrix;
+
 import java.awt.Point;
 import java.util.List;
 import java.util.ArrayList;
@@ -8,25 +10,28 @@ import java.util.ArrayList;
  * Created by isaac on 11/29/15.
  */
 public class CubicCurve {
-    private Point p0, p1, p2, p3;
+    private List<Point> _points;
 
     public CubicCurve() {
-        p0 = new Point();
-        p1 = new Point();
-        p2 = new Point();
-        p3 = new Point();
+        _points = new ArrayList<>();
     }
 
-    public CubicCurve(Point p0, Point p1, Point p2, Point p3) {
-        this.p0 = p0;
-        this.p1 = p1;
-        this.p2 = p2;
-        this.p3 = p3;
+    public void addPoint(Point point) {
+        _points.add(point);
     }
 
-    public List<Point> interpolate(double start, double end, double step) {
+    public List<Point> getPoints() {
+        return _points;
+    }
+
+    public List<Point> interpolate() {
+        if (_points.size() < 4) {
+            return new ArrayList<>();
+        }
+
         List<Point> points = new ArrayList<>();
-        for (double u = start; u <= end; u += step) {
+        double step = 0.01;
+        for (double u = 0; u <= 1; u += step) {
             Point point = calculatePoint(u);
             points.add(point);
         }
@@ -40,54 +45,59 @@ public class CubicCurve {
     }
 
     private double calculateX(double u) {
-        return _calculate(u, p0.x, p1.x, p2.x, p3.x);
+        List<Integer> xs = new ArrayList<>();
+        for (Point point : _points) {
+            xs.add(point.x);
+        }
+        return _calculate(u, xs);
     }
 
     private double calculateY(double u) {
-        return _calculate(u, p0.y, p1.y, p2.y, p3.y);
+        List<Integer> ys = new ArrayList<>();
+        for (Point point : _points) {
+            ys.add(point.y);
+        }
+        return _calculate(u, ys);
     }
 
-    private double _calculate(double u, double a0, double a1, double a2, double a3) {
+    private double _calculate(double u, List<Integer> vals) {
         double u3 = Math.pow(u, 3);
         double u2 = Math.pow(u, 2);
 
 
-        return u3 * ((-9.0/2) * a0 + (27.0/2) * a1 + (-27.0/2) * a2 + (9.0/2) * a3) +
-               u2 * (9 * a0 - (45.0/2) * a1 + 18 * a2 + (-9.0/2) * a3) +
-               u * ((-11.0/2) * a0 + 9 * a1 + (-9.0/2) * a2 + a3) +
-               a0;
-    }
+        if (vals.isEmpty()) {
+            return 0;
+        }
 
-    public Point getP0() {
-        return p0;
-    }
+        double bArr[][] = new double[100][vals.size()];
+        for (int row = 0; row < 100; ++row) {
+            double t = ((double) row / vals.size());
+            for (int col = 0; col < vals.size(); ++ col) {
+                int power = vals.size() - col - 1;
+                bArr[row][col] = Math.pow(t, power);
+            }
+        }
+        Matrix b = new Matrix(bArr);
+        Matrix bInv = b.inverse().transpose();
 
-    public void setP0(Point p0) {
-        this.p0 = p0;
-    }
+        double uArr[][] = new double[1][100];
+        for (int i = 0; i < vals.size(); ++i) {
+            int power = vals.size() - i - 1;
+            uArr[0][i] = Math.pow(u, power);
+        }
+        Matrix uMat = new Matrix(uArr);
 
-    public Point getP1() {
-        return p1;
-    }
+        double vArr[][] = new double[vals.size()][1];
+        for (int i = 0; i < vals.size(); ++i) {
+            vArr[i][0] = vals.get(i);
+        }
+        Matrix vMat = new Matrix(vArr);
 
-    public void setP1(Point p1) {
-        this.p1 = p1;
-    }
-
-    public Point getP2() {
-        return p2;
-    }
-
-    public void setP2(Point p2) {
-        this.p2 = p2;
-    }
-
-    public Point getP3() {
-        return p3;
-    }
-
-    public void setP3(Point p3) {
-        this.p3 = p3;
+        System.out.println(bInv.getRowDimension());
+        System.out.println(bInv.getColumnDimension());
+        Matrix res = bInv.times(vMat);
+        res = uMat.times(res);
+        return res.get(0, 0);
     }
 
 }

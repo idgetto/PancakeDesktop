@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="RXTXcomm" level="project" />
     <orderEntry type="library" name="Jama-1.0.3" level="project" />
+    <orderEntry type="library" name="commons-math3-3.5" level="project" />
   </component>
 </module>
