@@ -3,6 +3,8 @@ package models;
 import solver.Phase;
 import solver.Recipe;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.LinkedList;
@@ -24,14 +26,14 @@ public class PancakeCompiler {
 
         for (Phase phase : recipe.getPhases()) {
             for (Stroke stroke : phase.getStrokes()) {
-                List<Point> points = stroke.getPoints();
+                List<Point2D.Double> points = stroke.getPoints();
 
                 // move to the first point and start extruding
-                Point first = points.get(0);
-                appendMove(queue, first.x, first.y);
+                Point2D.Double first = points.get(0);
+                appendMove(queue, first.getX(), first.getY());
                 queue.add("E 1\n");
 
-                for (Point point : points) {
+                for (Point2D.Double point : points) {
                     appendMove(queue, point.x, point.y);
                 }
 
@@ -47,6 +49,10 @@ public class PancakeCompiler {
         queue.add("T 0\n");
         queue.add("D\n");
 
+        List<String> q = new ArrayList<>(queue);
+        for (String s : q) {
+            System.out.print(s);
+        }
         return queue;
     }
 
@@ -58,7 +64,7 @@ public class PancakeCompiler {
         queue.add(buf.toString());
     }
 
-    private void appendMove(Queue<String> queue, float x, float y) {
+    private void appendMove(Queue<String> queue, double x, double y) {
         StringBuffer buf = new StringBuffer();
         buf.append("M ");
         buf.append(formatter.format(x * SCALE));

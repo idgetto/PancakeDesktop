@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.List;
 
 public class CanvasPanel extends JPanel {
@@ -67,14 +68,15 @@ public class CanvasPanel extends JPanel {
 
         List<Stroke> strokes = _model.getStrokes();
         Stroke stroke = strokes.get(strokes.size() - 1);
-        List<Point> points = stroke.getPoints();
+        List<Point2D.Double> points = stroke.getPoints();
 
         // show preview of next line where mouse is
         if (!points.isEmpty()) {
-            Point a = points.get(points.size() - 1);
-            Point b = _model.getMouseLocation();
+            Point2D.Double a = points.get(points.size() - 1);
+            Point2D.Double b = _model.getMouseLocation();
             g2.setColor(stroke.getColor().brighter());
-            g2.drawLine(a.x, a.y, b.x, b.y);
+            Line2D.Double line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
+            g2.draw(line);
         }
     }
 

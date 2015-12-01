@@ -3,6 +3,7 @@ package models;
 import Jama.Matrix;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -10,57 +11,57 @@ import java.util.ArrayList;
  * Created by isaac on 11/29/15.
  */
 public class CubicCurve {
-    private List<Point> _points;
+    private List<Point2D.Double> _points;
 
     public CubicCurve() {
         _points = new ArrayList<>();
     }
 
-    public void addPoint(Point point) {
+    public void addPoint(Point2D.Double point) {
         _points.add(point);
     }
 
-    public List<Point> getPoints() {
+    public List<Point2D.Double> getPoints() {
         return _points;
     }
 
-    public List<Point> interpolate() {
+    public List<Point2D.Double> interpolate() {
         if (_points.size() < 4) {
             return new ArrayList<>();
         }
 
-        List<Point> points = new ArrayList<>();
+        List<Point2D.Double> points = new ArrayList<>();
         double step = 0.01;
         for (double u = 0; u <= 1; u += step) {
-            Point point = calculatePoint(u);
+            Point2D.Double point = calculatePoint(u);
             points.add(point);
         }
         return points;
     }
 
-    public Point calculatePoint(double u) {
-        int x = (int) calculateX(u);
-        int y = (int) calculateY(u);
-        return new Point(x, y);
+    public Point2D.Double calculatePoint(double u) {
+        double x = calculateX(u);
+        double y = calculateY(u);
+        return new Point2D.Double(x, y);
     }
 
     private double calculateX(double u) {
-        List<Integer> xs = new ArrayList<>();
-        for (Point point : _points) {
-            xs.add(point.x);
+        List<Double> xs = new ArrayList<>();
+        for (Point2D.Double point : _points) {
+            xs.add(point.getX());
         }
         return _calculate(u, xs);
     }
 
     private double calculateY(double u) {
-        List<Integer> ys = new ArrayList<>();
-        for (Point point : _points) {
-            ys.add(point.y);
+        List<Double> ys = new ArrayList<>();
+        for (Point2D.Double point : _points) {
+            ys.add(point.getY());
         }
         return _calculate(u, ys);
     }
 
-    private double _calculate(double u, List<Integer> vals) {
+    private double _calculate(double u, List<Double> vals) {
         double u3 = Math.pow(u, 3);
         double u2 = Math.pow(u, 2);
 

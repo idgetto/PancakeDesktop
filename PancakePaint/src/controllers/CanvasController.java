@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 import java.util.List;
 
 public class CanvasController implements MouseInputListener {
@@ -61,7 +62,8 @@ public class CanvasController implements MouseInputListener {
                 _currentStroke.setColor(_model.getBrush().getColor());
             }
 
-            _currentStroke.addPoint(mouseEvent.getPoint());
+            Point2D.Double point = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
+            _currentStroke.addPoint(point);
 
         }
 
@@ -109,12 +111,13 @@ public class CanvasController implements MouseInputListener {
         _context.repaint(_model);
     }
 
-    private void setMouseLocation(Point point) {
+    private void setMouseLocation(Point2D.Double point) {
         _model.setMouseLocation(point);
     }
 
     private void setMouseLocation(MouseEvent mouseEvent) {
-        setMouseLocation(mouseEvent.getPoint());
+        Point2D.Double point = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
+        setMouseLocation(point);
     }
 
 }

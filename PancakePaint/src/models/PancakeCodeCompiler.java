@@ -3,6 +3,7 @@ package models;
 import solver.Phase;
 import solver.Recipe;
 
+import java.awt.geom.Point2D;
 import java.util.List;
 import java.awt.Point;
 
@@ -40,15 +41,15 @@ public class PancakeCodeCompiler {
 
         for (Phase phase : recipe.getPhases()) {
             for (Stroke stroke : phase.getStrokes()) {
-                List<Point> points = stroke.getPoints();
+                List<Point2D.Double> points = stroke.getPoints();
 
                 // move to the first point and start extruding
-                Point first = points.get(0);
-                move(first.x, first.y);
+                Point2D.Double first = points.get(0);
+                move(first.getX(), first.getY());
                 extrudeOn();
 
-                for (Point point : points) {
-                    move(point.x, point.y);
+                for (Point2D.Double point : points) {
+                    move(point.getX(), point.getY());
                 }
 
                 // stop extruding
@@ -81,7 +82,7 @@ public class PancakeCodeCompiler {
         _buf.append(");\n");
     }
 
-    private void move(float x, float y) {
+    private void move(double x, double y) {
         _buf.append("pp.moveTo(");
         _buf.append(x * SCALE);
         _buf.append(", ");

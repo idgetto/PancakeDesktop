@@ -2,6 +2,7 @@ package solver;
 
 import models.Stroke;
 
+import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.ArrayList;
 import java.awt.Point;
@@ -37,7 +38,7 @@ public class Recipe {
                 str += "Stroke " + strokeIndex + "\n"; 
                 
                 Stroke stroke = strokes.get(strokeIndex);
-                for (Point p : stroke.getPoints()) {
+                for (Point2D.Double p : stroke.getPoints()) {
                     str += "row: " + p.y + ", col: " + p.x + "\n";
                 }
                 str += "\n";

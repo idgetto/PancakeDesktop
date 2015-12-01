@@ -4,6 +4,7 @@ import org.apache.commons.math3.analysis.interpolation.SplineInterpolator;
 import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * Created by isaac on 11/29/15.
  */
 public class CompositeCubicCurve {
-    private List<Point> _points;
+    private List<Point2D.Double> _points;
     private SplineInterpolator _splineInterpolator;
     private PolynomialSplineFunction _xSpline, _ySpline;
 
@@ -20,31 +21,31 @@ public class CompositeCubicCurve {
         _splineInterpolator = new SplineInterpolator();
     }
 
-    public void addPoint(Point point) {
+    public void addPoint(Point2D.Double point) {
         _points.add(point);
         calculateSplines(_points);
     }
 
-    public List<Point> getPoints() {
+    public List<Point2D.Double> getPoints() {
         return _points;
     }
 
-    public List<Point> interpolate() {
+    public List<Point2D.Double> interpolate() {
         if (_xSpline == null || _ySpline == null) {
             return _points;
         }
 
         double tStep = 0.01;
-        List<Point> points = new ArrayList<>();
+        List<Point2D.Double> points = new ArrayList<>();
         for (double time = 0; time < _points.size() - 1; time += tStep) {
-            int xVal = (int) _xSpline.value(time);
-            int yVal = (int) _ySpline.value(time);
-            points.add(new Point(xVal, yVal));
+            double xVal = (double) _xSpline.value(time);
+            double yVal = (double) _ySpline.value(time);
+            points.add(new Point2D.Double(xVal, yVal));
         }
         return points;
     }
 
-    private void calculateSplines(List<Point> points) {
+    private void calculateSplines(List<Point2D.Double> points) {
         if (points.size() < 3) {
             return;
         }

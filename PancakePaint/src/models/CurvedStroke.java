@@ -5,6 +5,8 @@ import views.PancakePallete;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -29,35 +31,36 @@ public class CurvedStroke implements Stroke {
     private void drawCurves(Graphics2D g2) {
         g2.setStroke(new BasicStroke(4));
 
-        List<Point> points = getPoints();
+        List<Point2D.Double> points = getPoints();
         g2.setColor(getColor());
         for (int i = 0; i < points.size() - 1; ++i) {
-            Point a = points.get(i);
-            Point b = points.get(i + 1);
-            g2.drawLine(a.x, a.y, b.x, b.y);
+            Point2D.Double a = points.get(i);
+            Point2D.Double b = points.get(i + 1);
+            Line2D.Double line = new Line2D.Double(a.getX(), a.getY(), b.getX(), b.getY());
+            g2.draw(line);
         }
     }
 
     private void drawControlPoints(Graphics2D g2) {
         g2.setStroke(new BasicStroke(4));
         g2.setColor(PancakePallete.GREEN);
-        for (Point point : _curve.getPoints()) {
-            int w = 10;
-            int h = 10;
-            int x = point.x - (w / 2);
-            int y = point.y - (h / 2);
+        for (Point2D.Double point : _curve.getPoints()) {
+            double w = 10;
+            double h = 10;
+            double x = point.getX() - (w / 2);
+            double y = point.getY() - (h / 2);
             Ellipse2D.Double circle = new Ellipse2D.Double(x, y, w, h);
             g2.fill(circle);
         }
     }
 
     @Override
-    public void addPoint(Point point) {
+    public void addPoint(Point2D.Double point) {
         _curve.addPoint(point);
     }
 
     @Override
-    public List<Point> getPoints() {
+    public List<Point2D.Double> getPoints() {
         return _curve.interpolate();
     }
 

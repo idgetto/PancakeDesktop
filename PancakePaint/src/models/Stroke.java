@@ -1,13 +1,13 @@
 package models;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.List;
-import java.util.ArrayList;
 
 public interface Stroke {
     public void paint(Graphics2D g2);
-    public void addPoint(Point point);
-    public List<Point> getPoints();
+    public void addPoint(Point2D.Double point);
+    public List<Point2D.Double> getPoints();
     public Color getColor();
     public void setColor(Color color);
 }
