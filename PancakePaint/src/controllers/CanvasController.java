@@ -49,7 +49,7 @@ public class CanvasController implements MouseInputListener {
         int modifiers = mouseEvent.getModifiers();
         if (isRightClick(modifiers)) {
             System.out.println("Right Click: " + mouseEvent.getPoint());
-            _currentStroke = null;
+            finishStroke();
         } else {
             System.out.println("Clicked: " + mouseEvent.getPoint());
 
@@ -57,14 +57,8 @@ public class CanvasController implements MouseInputListener {
                 setupStroke();
             }
 
-            // set the stroke color to the brush color
-            if (_currentStroke.getPoints().isEmpty()) {
-                _currentStroke.setColor(_model.getBrush().getColor());
-            }
-
             Point2D.Double point = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
             _currentStroke.addPoint(point);
-
         }
 
         setMouseLocation(mouseEvent);
@@ -73,6 +67,13 @@ public class CanvasController implements MouseInputListener {
 
     private boolean isRightClick(int modifiers) {
         return (modifiers & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK;
+    }
+
+    private void finishStroke() {
+        if (_currentStroke != null) {
+            _currentStroke.setPreviewPoint(null);
+            _currentStroke = null;
+        }
     }
 
     @Override
@@ -113,6 +114,9 @@ public class CanvasController implements MouseInputListener {
 
     private void setMouseLocation(Point2D.Double point) {
         _model.setMouseLocation(point);
+        if (_currentStroke != null) {
+            _currentStroke.setPreviewPoint(point);
+        }
     }
 
     private void setMouseLocation(MouseEvent mouseEvent) {

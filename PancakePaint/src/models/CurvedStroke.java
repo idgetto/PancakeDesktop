@@ -14,9 +14,9 @@ import java.util.ArrayList;
  * Created by isaac on 11/28/15.
  */
 public class CurvedStroke implements Stroke {
-
     private CompositeCubicCurve _curve;
     private Color _color;
+    private Point2D.Double _previewPoint;
 
     public CurvedStroke() {
         _curve = new CompositeCubicCurve();
@@ -61,7 +61,30 @@ public class CurvedStroke implements Stroke {
 
     @Override
     public List<Point2D.Double> getPoints() {
-        return _curve.interpolate();
+        if (_previewPoint == null) {
+            return _curve.interpolate();
+        } else {
+            return getPointsWithPreview();
+        }
+    }
+
+    private List<Point2D.Double> getPointsWithPreview() {
+        CompositeCubicCurve curve = new CompositeCubicCurve();
+        List<Point2D.Double> points = new ArrayList<>(_curve.getPoints());
+
+        curve.setPoints(points);
+        curve.addPoint(_previewPoint);
+        return curve.interpolate();
+    }
+
+    @Override
+    public void setPreviewPoint(Point2D.Double point) {
+        _previewPoint = point;
+    }
+
+    @Override
+    public Point2D.Double getPreviewPoint() {
+        return _previewPoint;
     }
 
     @Override

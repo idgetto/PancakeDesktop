@@ -15,6 +15,7 @@ import java.util.List;
 public class LinearStroke implements Stroke {
     private Color _color;
     private List<Point2D.Double> _points;
+    private Point2D.Double _previewPoint;
 
     public LinearStroke() {
         _points = new ArrayList<>();
@@ -67,7 +68,21 @@ public class LinearStroke implements Stroke {
 
     @Override
     public List<Point2D.Double> getPoints() {
-        return _points;
+        List<Point2D.Double> points = new ArrayList<>(_points);
+        if (_previewPoint != null) {
+            points.add(_previewPoint);
+        }
+        return points;
+    }
+
+    @Override
+    public void setPreviewPoint(Point2D.Double point) {
+        _previewPoint = point;
+    }
+
+    @Override
+    public Point2D.Double getPreviewPoint() {
+        return _previewPoint;
     }
 
     @Override

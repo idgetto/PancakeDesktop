@@ -30,6 +30,10 @@ public class CompositeCubicCurve {
         return _points;
     }
 
+    public void setPoints(List<Point2D.Double> points) {
+        _points = points;
+    }
+
     public List<Point2D.Double> interpolate() {
         if (_xSpline == null || _ySpline == null) {
             return _points;
