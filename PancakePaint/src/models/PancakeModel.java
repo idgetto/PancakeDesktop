@@ -8,12 +8,43 @@ import java.util.ArrayList;
 public class PancakeModel {
 
     private List<Stroke> _strokes;
+    private Stroke _currentStroke;
     private PancakePaintBrush _brush;
     private Point2D.Double _mouseLocation;
 
     public PancakeModel() {
         _strokes = new ArrayList<Stroke>();
         _brush = new PancakePaintBrush();
+    }
+
+    public void addPoint(Point2D.Double point) {
+            if (_currentStroke == null) {
+                setupStroke();
+            }
+            _currentStroke.addPoint(point);
+    }
+
+    public void setupStroke() {
+        switch (_brush.getMode()) {
+            case LINEAR_STROKE:
+                System.out.println("linear mode");
+                _currentStroke = new LinearStroke();
+                break;
+            case CURVED_STROKE:
+                System.out.println("curved mode");
+                _currentStroke = new CurvedStroke();
+                break;
+        }
+
+        _currentStroke.setColor(_brush.getColor());
+        _strokes.add(_currentStroke);
+    }
+
+    public void finishStroke() {
+        if (_currentStroke != null) {
+            _currentStroke.setPreviewPoint(null);
+            _currentStroke = null;
+        }
     }
 
     public List<Stroke> getStrokes() {
@@ -38,5 +69,8 @@ public class PancakeModel {
 
     public void setMouseLocation(Point2D.Double point) {
         _mouseLocation = point;
+        if (_currentStroke != null) {
+            _currentStroke.setPreviewPoint(point);
+        }
     }
 }

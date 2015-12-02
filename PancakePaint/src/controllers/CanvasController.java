@@ -20,60 +20,20 @@ public class CanvasController implements MouseInputListener {
 
     private Paintable _context;
     private PancakeModel _model;
-    private Stroke _currentStroke;
 
     public CanvasController(Paintable context, PancakeModel model) {
         _context = context;
         _model = model;
     }
 
-    public void setupStroke() {
-        switch (_model.getBrush().getMode()) {
-            case LINEAR_STROKE:
-                System.out.println("linear mode");
-                _currentStroke = new LinearStroke();
-                break;
-            case CURVED_STROKE:
-                System.out.println("curved mode");
-                _currentStroke = new CurvedStroke();
-                break;
-        }
-
-        _currentStroke.setColor(_model.getBrush().getColor());
-        List<Stroke> strokes = _model.getStrokes();
-        strokes.add(_currentStroke);
-    }
-
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        int modifiers = mouseEvent.getModifiers();
-        if (isRightClick(modifiers)) {
-            System.out.println("Right Click: " + mouseEvent.getPoint());
-            finishStroke();
-        } else {
-            System.out.println("Clicked: " + mouseEvent.getPoint());
-
-            if (_currentStroke == null) {
-                setupStroke();
-            }
-
-            Point2D.Double point = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
-            _currentStroke.addPoint(point);
-        }
-
-        setMouseLocation(mouseEvent);
         _context.repaint(_model);
+        setMouseLocation(mouseEvent);
     }
 
     private boolean isRightClick(int modifiers) {
         return (modifiers & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK;
-    }
-
-    private void finishStroke() {
-        if (_currentStroke != null) {
-            _currentStroke.setPreviewPoint(null);
-            _currentStroke = null;
-        }
     }
 
     @Override
@@ -84,6 +44,17 @@ public class CanvasController implements MouseInputListener {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
+        int modifiers = mouseEvent.getModifiers();
+        if (isRightClick(modifiers)) {
+            System.out.println("Right Click: " + mouseEvent.getPoint());
+            _model.finishStroke();
+        } else {
+            Point2D.Double point = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
+            _model.addPoint(point);
+            System.out.println("Clicked: " + mouseEvent.getPoint());
+
+        }
+
         setMouseLocation(mouseEvent);
         _context.repaint(_model);
     }
@@ -114,9 +85,6 @@ public class CanvasController implements MouseInputListener {
 
     private void setMouseLocation(Point2D.Double point) {
         _model.setMouseLocation(point);
-        if (_currentStroke != null) {
-            _currentStroke.setPreviewPoint(point);
-        }
     }
 
     private void setMouseLocation(MouseEvent mouseEvent) {
