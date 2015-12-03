@@ -45,9 +45,9 @@ public class SendRecipeTask implements Runnable {
                 return buf.toString();
             }
 
-            String next = commands.remove();
+            String next = commands.element();
             if (buf.length() + next.length() < SERIAL_BUFFER_SIZE) {
-                buf.append(next);
+                buf.append(commands.remove());
             } else {
                 return buf.toString();
             }
