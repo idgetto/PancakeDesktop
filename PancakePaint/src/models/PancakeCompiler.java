@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 
 public class PancakeCompiler {
 
-    private static final double SCALE = 5;
+    private static final double SCALE = 0.6;
     private DecimalFormat formatter;
 
     public Queue<String> compile(Recipe recipe) {
