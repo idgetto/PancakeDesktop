@@ -12,10 +12,8 @@ import java.util.List;
 /**
  * Created by isaac on 11/28/15.
  */
-public class LinearStroke implements Stroke {
-    private Color _color;
+public class LinearStroke extends Stroke {
     private List<Point2D.Double> _points;
-    private Point2D.Double _previewPoint;
 
     public LinearStroke() {
         _points = new ArrayList<>();
@@ -46,12 +44,18 @@ public class LinearStroke implements Stroke {
         g2.setStroke(new BasicStroke(4));
         g2.setColor(PancakePallete.GREEN);
         for (Point2D.Double point : _points) {
-            double w = 10;
-            double h = 10;
-            double x = point.getX() - (w / 2);
-            double y = point.getY() - (h / 2);
-            Ellipse2D.Double circle = new Ellipse2D.Double(x, y, w, h);
-            g2.fill(circle);
+            drawPoint(g2, point);
+        }
+    }
+
+    private void drawStrokeCloseHighlight(Graphics2D g2) {
+        Point2D.Double strokeStart = getStrokeStart();
+        if (_previewPoint != null &&
+            strokeStart != null
+            && nearby(_previewPoint, strokeStart)) {
+            g2.setStroke(new BasicStroke(4));
+            g2.setColor(PancakePallete.RED);
+            drawPoint(g2, strokeStart);
         }
     }
 
@@ -59,11 +63,17 @@ public class LinearStroke implements Stroke {
     public void paint(Graphics2D g2) {
         drawLines(g2);
         drawControlPoints(g2);
+        drawStrokeCloseHighlight(g2);
     }
 
     @Override
     public void addPoint(Point2D.Double point) {
        _points.add(point);
+    }
+
+    @Override
+    public List<Point2D.Double> getKnots() {
+        return _points;
     }
 
     @Override
@@ -73,25 +83,5 @@ public class LinearStroke implements Stroke {
             points.add(_previewPoint);
         }
         return points;
-    }
-
-    @Override
-    public void setPreviewPoint(Point2D.Double point) {
-        _previewPoint = point;
-    }
-
-    @Override
-    public Point2D.Double getPreviewPoint() {
-        return _previewPoint;
-    }
-
-    @Override
-    public Color getColor() {
-        return _color;
-    }
-
-    @Override
-    public void setColor(Color color) {
-        _color = color;
     }
 }

@@ -50,8 +50,12 @@ public class CanvasController implements MouseInputListener {
             _model.finishStroke();
         } else {
             Point2D.Double point = new Point2D.Double(mouseEvent.getX(), mouseEvent.getY());
-            _model.addPoint(point);
             System.out.println("Clicked: " + mouseEvent.getPoint());
+            if (_model.nearStartPoint(point)) {
+                _model.closeStroke();
+            } else {
+                _model.addPoint(point);
+            }
 
         }
 

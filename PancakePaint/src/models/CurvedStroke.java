@@ -3,7 +3,6 @@ package models;
 import views.PancakePallete;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -13,10 +12,8 @@ import java.util.ArrayList;
 /**
  * Created by isaac on 11/28/15.
  */
-public class CurvedStroke implements Stroke {
+public class CurvedStroke extends Stroke {
     private CompositeCubicCurve _curve;
-    private Color _color;
-    private Point2D.Double _previewPoint;
 
     public CurvedStroke() {
         _curve = new CompositeCubicCurve();
@@ -26,6 +23,7 @@ public class CurvedStroke implements Stroke {
     public void paint(Graphics2D g2) {
         drawCurves(g2);
         drawControlPoints(g2);
+        drawStrokeCloseHighlight(g2);
     }
 
     private void drawCurves(Graphics2D g2) {
@@ -44,19 +42,40 @@ public class CurvedStroke implements Stroke {
     private void drawControlPoints(Graphics2D g2) {
         g2.setStroke(new BasicStroke(4));
         g2.setColor(PancakePallete.GREEN);
-        for (Point2D.Double point : _curve.getPoints()) {
-            double w = 10;
-            double h = 10;
-            double x = point.getX() - (w / 2);
-            double y = point.getY() - (h / 2);
-            Ellipse2D.Double circle = new Ellipse2D.Double(x, y, w, h);
-            g2.fill(circle);
+        for (Point2D.Double point : getKnots()) {
+            drawPoint(g2, point);
+        }
+
+    }
+
+    private void drawStrokeCloseHighlight(Graphics2D g2) {
+        Point2D.Double strokeStart = getStrokeStart();
+        if (_previewPoint != null &&
+            strokeStart != null
+            && nearby(_previewPoint, strokeStart)) {
+            g2.setStroke(new BasicStroke(4));
+            g2.setColor(PancakePallete.RED);
+            drawPoint(g2, strokeStart);
+        }
+    }
+
+
+    @Override
+    public void addPoint(Point2D.Double point) {
+        // close the shape if clicking near the start point
+        Point2D.Double strokeStart = getStrokeStart();
+        if (strokeStart != null &&
+            nearby(_previewPoint, strokeStart)) {
+            _curve.addPoint(strokeStart);
+            _closed = true;
+        } else {
+            _curve.addPoint(point);
         }
     }
 
     @Override
-    public void addPoint(Point2D.Double point) {
-        _curve.addPoint(point);
+    public List<Point2D.Double> getKnots() {
+        return _curve.getPoints();
     }
 
     @Override
@@ -77,23 +96,4 @@ public class CurvedStroke implements Stroke {
         return curve.interpolate();
     }
 
-    @Override
-    public void setPreviewPoint(Point2D.Double point) {
-        _previewPoint = point;
-    }
-
-    @Override
-    public Point2D.Double getPreviewPoint() {
-        return _previewPoint;
-    }
-
-    @Override
-    public Color getColor() {
-        return _color;
-    }
-
-    @Override
-    public void setColor(Color color) {
-        _color = color;
-    }
 }

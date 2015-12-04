@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class PancakeModel {
+    private static final Double NEARBY_DISTANCE = 5.0;
 
     private List<Stroke> _strokes;
     private Stroke _currentStroke;
@@ -22,6 +23,28 @@ public class PancakeModel {
                 setupStroke();
             }
             _currentStroke.addPoint(point);
+    }
+
+    public boolean nearStartPoint(Point2D.Double point) {
+        if (_currentStroke == null) {
+            return false;
+        }
+        return _currentStroke.nearStartPoint(point);
+    }
+
+    public void closeStroke() {
+        if (_currentStroke == null) {
+            return;
+        }
+
+        List<Point2D.Double> points = _currentStroke.getKnots();
+        if (points.isEmpty()) {
+            return;
+        }
+
+        addPoint(points.get(0));
+        _currentStroke.setClosed(true);
+        finishStroke();
     }
 
     public void setupStroke() {
