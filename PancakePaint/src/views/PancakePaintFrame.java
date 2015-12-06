@@ -23,6 +23,7 @@ public class PancakePaintFrame extends JFrame {
     private static final int FRAME_WIDTH = GRILL_WIDTH;
     private static final int FRAME_HEIGHT = GRILL_HEIGHT + MENU_HEIGHT;
 
+    private MenuBar _menuBar;
     private MenuPanel _menuPanel;
     private CanvasPanel _canvasPanel;
 
@@ -53,9 +54,11 @@ public class PancakePaintFrame extends JFrame {
     }
 
     private void addComponents(PancakeModel model) {
+        _menuBar = new MenuBar();
         _menuPanel = new MenuPanel(MENU_WIDTH, MENU_HEIGHT);
         _canvasPanel = new CanvasPanel(model, GRILL_WIDTH, GRILL_HEIGHT);
 
+        setJMenuBar(_menuBar);
         add(_menuPanel, BorderLayout.PAGE_START);
         add(_canvasPanel, BorderLayout.PAGE_END);
         pack();
