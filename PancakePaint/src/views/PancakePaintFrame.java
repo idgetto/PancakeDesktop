@@ -1,7 +1,8 @@
 package views;
 
-import event.CanvasListener;
+import event.MenuBarListener;
 import event.MenuListener;
+import event.CanvasListener;
 import models.PancakeModel;
 
 import javax.swing.JFrame;
@@ -37,6 +38,10 @@ public class PancakePaintFrame extends JFrame {
     public void repaint(PancakeModel model) {
         _menuPanel.repaint(model);
         _canvasPanel.repaint(model);
+    }
+
+    public void setMenuBarListener(MenuBarListener listener) {
+        _menuBar.setMenuBarListener(listener);
     }
 
     public void setMenuListener(MenuListener listener) {

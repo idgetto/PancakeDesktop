@@ -8,15 +8,18 @@ public class PancakePaint implements Paintable {
 
     private PancakeModel _model;
     private PancakePaintFrame _frame;
+    private MenuBarController _menuBarController;
     private MenuController _menuController;
     private CanvasController _canvasController;
 
     public PancakePaint() {
         _model = new PancakeModel();
+        _menuBarController = new MenuBarController();
         _menuController = new MenuController(this, _model);
         _canvasController = new CanvasController(this, _model);
 
         _frame = new PancakePaintFrame(_model);
+        _frame.setMenuBarListener(_menuBarController);
         _frame.setMenuListener(_menuController);
         _frame.setCanvasListener(_canvasController);
     }
