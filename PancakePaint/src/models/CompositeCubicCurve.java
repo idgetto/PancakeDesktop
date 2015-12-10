@@ -7,14 +7,17 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
+import java.io.ObjectInputStream;
+import java.io.IOException;
 
 /**
  * Created by isaac on 11/29/15.
  */
-public class CompositeCubicCurve {
+public class CompositeCubicCurve implements Serializable {
     private List<Point2D.Double> _points;
-    private SplineInterpolator _splineInterpolator;
-    private PolynomialSplineFunction _xSpline, _ySpline;
+    private transient SplineInterpolator _splineInterpolator;
+    private transient PolynomialSplineFunction _xSpline, _ySpline;
 
     public CompositeCubicCurve() {
         _points = new ArrayList<>();
@@ -65,5 +68,15 @@ public class CompositeCubicCurve {
 
         _xSpline = _splineInterpolator.interpolate(times, xVals);
         _ySpline = _splineInterpolator.interpolate(times, yVals);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        setup();
+    }
+
+    private void setup() {
+        _splineInterpolator = new SplineInterpolator();
+        calculateSplines(getPoints());
     }
 }

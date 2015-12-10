@@ -39,37 +39,21 @@ public class MenuBar extends JMenuBar {
         _fileOpen = new JMenuItem("Open");
         _fileOpen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int res = fileChooser.showOpenDialog(_frame);
-                if (res == JFileChooser.APPROVE_OPTION) {
-                    File openFile = fileChooser.getSelectedFile();
-                    _listener.onFileOpen(openFile);
-                }
+                open();
             }
         });
 
         _fileSave = new JMenuItem("Save");
         _fileSave.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (_saveFile != null) {
-                    _listener.onFileSave(_saveFile);
-                } else {
-                    int res = fileChooser.showOpenDialog(_frame);
-                    if (res == JFileChooser.APPROVE_OPTION) {
-                        _saveFile = fileChooser.getSelectedFile();
-                        _listener.onFileSaveAs(_saveFile);
-                    }
-                }
+                save();
             }
         });
 
         _fileSaveAs = new JMenuItem("Save As");
         _fileSaveAs.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int res = fileChooser.showOpenDialog(_frame);
-                if (res == JFileChooser.APPROVE_OPTION) {
-                    _saveFile = fileChooser.getSelectedFile();
-                    _listener.onFileSaveAs(_saveFile);
-                }
+                saveAs();
             }
         });
     }
@@ -79,6 +63,40 @@ public class MenuBar extends JMenuBar {
         _fileMenu.add(_fileSave);
         _fileMenu.add(_fileSaveAs);
         add(_fileMenu);
+    }
+
+    private void open() {
+        File openFile = chooseFile();
+        if (openFile != null) {
+            _saveFile = openFile;
+            _listener.onFileOpen(openFile);
+        }
+    }
+
+    private void save() {
+        if (_saveFile != null) {
+            _listener.onFileSave(_saveFile);
+        } else {
+            saveAs();
+        }
+
+    }
+
+    private void saveAs() {
+        File saveFile = chooseFile();
+        if (saveFile != null) {
+            _saveFile = saveFile;
+            _listener.onFileSaveAs(_saveFile);
+        }
+    }
+
+    private File chooseFile() {
+        int res = fileChooser.showOpenDialog(_frame);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            return fileChooser.getSelectedFile();
+        } else {
+            return null;
+        }
     }
 
 }
