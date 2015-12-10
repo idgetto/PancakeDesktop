@@ -4,8 +4,9 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class PancakeModel {
+public class PancakeModel implements Serializable {
     private static final Double NEARBY_DISTANCE = 5.0;
 
     private List<Stroke> _strokes;

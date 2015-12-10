@@ -1,5 +1,6 @@
 package views;
 
+import top.PancakeContext;
 import event.MenuBarListener;
 import event.MenuListener;
 import event.CanvasListener;
@@ -28,10 +29,10 @@ public class PancakePaintFrame extends JFrame {
     private MenuPanel _menuPanel;
     private CanvasPanel _canvasPanel;
 
-    public PancakePaintFrame(PancakeModel model) {
+    public PancakePaintFrame(PancakeContext context) {
         super("Pancake Paint");
         setupWindow();
-        addComponents(model);
+        addComponents(context.getModel());
         setVisible(true);
     }
 
@@ -59,7 +60,7 @@ public class PancakePaintFrame extends JFrame {
     }
 
     private void addComponents(PancakeModel model) {
-        _menuBar = new MenuBar();
+        _menuBar = new MenuBar(this);
         _menuPanel = new MenuPanel(MENU_WIDTH, MENU_HEIGHT);
         _canvasPanel = new CanvasPanel(model, GRILL_WIDTH, GRILL_HEIGHT);
 

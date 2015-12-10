@@ -4,8 +4,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Ellipse2D;
 import java.util.List;
+import java.io.Serializable;
 
-public abstract class Stroke {
+public abstract class Stroke implements Serializable {
     private static final double NEARBY_DISTANCE = 5.0;
 
     protected Color _color;

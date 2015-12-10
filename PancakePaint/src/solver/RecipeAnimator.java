@@ -1,7 +1,6 @@
 package solver;
 
-import models.PancakeModel;
-import views.Paintable;
+import top.PancakeContext;
 
 import java.util.List;
 import java.awt.Point;
@@ -13,13 +12,11 @@ import java.awt.event.ActionEvent;
 public class RecipeAnimator {
 
     private Recipe _recipe;
-    private PancakeModel _model;
-    private Paintable _view;
+    private PancakeContext _context;
 
-    public RecipeAnimator(Recipe recipe, PancakeModel model, Paintable view) {
+    public RecipeAnimator(Recipe recipe, PancakeContext context) {
         _recipe = recipe;
-        _model = model;
-        _view = view;
+        _context = context;
     }
 
     public void run(final Callback callback) {

@@ -3,8 +3,9 @@ package models;
 import views.PancakePallete;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class PancakePaintBrush {
+public class PancakePaintBrush implements Serializable {
 
     public enum BrushMode {
         LINEAR_STROKE,
