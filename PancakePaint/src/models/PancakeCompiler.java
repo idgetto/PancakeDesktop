@@ -13,7 +13,11 @@ import java.text.DecimalFormat;
 
 public class PancakeCompiler {
 
-    private static final double SCALE = 0.6;
+    // center the drawing within the grill
+    private static final double SCALE = 0.8 * (1.0/3.0);
+    private static final double X_OFFSET = 0.1 * (1.0/3.0) * 1461;
+    private static final double Y_OFFSET = 0.1 * (1.0/3.0) * 651;
+
     private DecimalFormat formatter;
 
     public Queue<String> compile(Recipe recipe) {
@@ -67,9 +71,9 @@ public class PancakeCompiler {
     private void appendMove(Queue<String> queue, double x, double y) {
         StringBuffer buf = new StringBuffer();
         buf.append("M ");
-        buf.append(formatter.format(x * SCALE));
+        buf.append(formatter.format(X_OFFSET + (x * SCALE)));
         buf.append(" ");
-        buf.append(formatter.format(y * SCALE));
+        buf.append(formatter.format(Y_OFFSET + (y * SCALE)));
         buf.append("\n");
         queue.add(buf.toString());
     }

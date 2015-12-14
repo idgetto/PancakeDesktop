@@ -18,8 +18,8 @@ import java.awt.event.ActionListener;
 public class PancakePaintFrame extends JFrame {
 
     // The grill size is 23"X12" or 584mmX304mm
-    private static final int GRILL_WIDTH = 1200;
-    private static final int GRILL_HEIGHT = 600;
+    private static final int GRILL_WIDTH = 1461;
+    private static final int GRILL_HEIGHT = 651;
     private static final int MENU_WIDTH = GRILL_WIDTH;
     private static final int MENU_HEIGHT = 30;
     private static final int FRAME_WIDTH = GRILL_WIDTH;
