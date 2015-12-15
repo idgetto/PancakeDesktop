@@ -15,8 +15,10 @@ public class PancakeCompiler {
 
     // center the drawing within the grill
     private static final double SCALE = 0.8 * (1.0/3.0);
-    private static final double X_OFFSET = 0.1 * (1.0/3.0) * 1461;
-    private static final double Y_OFFSET = 0.1 * (1.0/3.0) * 651;
+    private static final double MAX_X = 1461;
+    private static final double MAX_Y = 651;
+    private static final double X_OFFSET = 0.1 * (1.0/3.0) * MAX_X;
+    private static final double Y_OFFSET = 0.1 * (1.0/3.0) * MAX_Y;
 
     private DecimalFormat formatter;
 
@@ -69,6 +71,9 @@ public class PancakeCompiler {
     }
 
     private void appendMove(Queue<String> queue, double x, double y) {
+        x = javaXtoGrillX(x);
+        y = javaYtoGrillY(y);
+
         StringBuffer buf = new StringBuffer();
         buf.append("M ");
         buf.append(formatter.format(X_OFFSET + (x * SCALE)));
@@ -76,6 +81,20 @@ public class PancakeCompiler {
         buf.append(formatter.format(Y_OFFSET + (y * SCALE)));
         buf.append("\n");
         queue.add(buf.toString());
+    }
+
+    private double javaXtoGrillX(double x) {
+        return x;
+    }
+
+    private double javaYtoGrillY(double y) {
+        return remap(y, 0, MAX_Y, MAX_Y, 0);
+    }
+
+    private double remap(double val,
+                         double fromLow, double fromHigh,
+                         double toLow, double toHigh) {
+        return (val - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
     }
 
 }
