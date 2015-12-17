@@ -28,7 +28,7 @@ public class LinearStroke extends Stroke {
     }
 
     private void drawLines(Graphics2D g2) {
-        g2.setStroke(new BasicStroke(4));
+        g2.setStroke(new BasicStroke(8));
 
         List<Point2D.Double> points = getPoints();
         g2.setColor(getColor());

@@ -42,7 +42,7 @@ public class CompositeCubicCurve implements Serializable {
             return _points;
         }
 
-        double tStep = 0.01;
+        double tStep = 0.1;
         List<Point2D.Double> points = new ArrayList<>();
         for (double time = 0; time < _points.size() - 1; time += tStep) {
             double xVal = (double) _xSpline.value(time);
