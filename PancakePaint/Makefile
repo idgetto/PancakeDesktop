@@ -1,16 +1,20 @@
 SRCDIR := src
+BINDIR := bin
 SOURCES := $(shell find $(SRCDIR) -type f -name *.java)
 LIBS := -Djava.library.path=libs
 EXEC := PancakePaintRunner
 CP := -cp .:lib/Jama-1.0.3.jar:lib/commons-math3-3.5.jar:bin
 
 default: $(SOURCES)
-	javac $(CP) $^ -d bin
+	javac $(CP) $^ -d $(BINDIR)
 
 run: default
 	java $(CP) $(LIBS) $(EXEC)
 
+jar: $(SOURCES)
+	cd $(BINDIR) && jar -cvfm ../pp.jar ../MANIFEST.MF *; cd -
+
 clean:
-	find bin -type f -exec rm {}  +
+	find $(BINDIR) -type f -exec rm {}  +
 
 .PHONY: clean
