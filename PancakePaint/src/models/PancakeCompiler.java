@@ -27,8 +27,8 @@ public class PancakeCompiler {
         formatter = new DecimalFormat("0.#");
 
         // start with the grill on
-        queue.add("T 300\n");
-        queue.add("E 0\n");
+        appendTemperature(queue, 300);
+        appendExtrude(queue, false);
 
         for (Phase phase : recipe.getPhases()) {
             for (Stroke stroke : phase.getStrokes()) {
@@ -38,22 +38,24 @@ public class PancakeCompiler {
                 Point2D.Double first = points.get(0);
                 appendMove(queue, first.getX(), first.getY());
                 queue.add("E 1\n");
+                appendExtrude(queue, true);
 
                 for (Point2D.Double point : points) {
                     appendMove(queue, point.x, point.y);
                 }
 
                 // stop extruding
-                queue.add("E 0\n");
+                appendExtrude(queue, false);
             }
 
+            appendGoHome(queue);
             appendDelay(queue, phase.getEndDelay());
         }
 
         // turn the grill off when done
-        queue.add("E 0\n");
-        queue.add("T 0\n");
-        queue.add("D\n");
+        appendExtrude(queue, false);
+        appendTemperature(queue, 0);
+        appendDone(queue);
 
         List<String> q = new ArrayList<>(queue);
         for (String s : q) {
@@ -81,6 +83,36 @@ public class PancakeCompiler {
         buf.append(formatter.format(Y_OFFSET + (y * SCALE)));
         buf.append("\n");
         queue.add(buf.toString());
+    }
+
+    private void appendExtrude(Queue<String> queue, boolean extrude) {
+        StringBuffer buf = new StringBuffer();
+        buf.append("E");
+        buf.append(" ");
+        if (extrude) {
+            buf.append("1");
+        } else {
+            buf.append("0");
+        }
+        buf.append("\n");
+        queue.add(buf.toString());
+    }
+
+    private void appendTemperature(Queue<String> queue, double temp) {
+        StringBuffer buf = new StringBuffer();
+        buf.append("T");
+        buf.append(" ");
+        buf.append(temp);
+        buf.append("\n");
+        queue.add(buf.toString());
+    }
+
+    private void appendGoHome(Queue<String> queue) {
+        queue.add("H\n");
+    }
+
+    private void appendDone(Queue<String> queue) {
+        queue.add("D\n");
     }
 
     private double javaXtoGrillX(double x) {
