@@ -20,7 +20,7 @@ public class PancakePathSolver {
         Recipe recipe = new Recipe();
 
         Phase brownPhase = new Phase();
-        brownPhase.setEndDelay(60 * 1000);
+        brownPhase.setEndDelay(30 * 1000);
         for (Stroke stroke : brownStrokes) {
             brownPhase.addStroke(stroke);
         }

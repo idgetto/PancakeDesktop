@@ -27,7 +27,7 @@ public class CurvedStroke extends Stroke {
     }
 
     private void drawCurves(Graphics2D g2) {
-        g2.setStroke(new BasicStroke(8));
+        g2.setStroke(new BasicStroke(12));
 
         List<Point2D.Double> points = getPoints();
         g2.setColor(getColor());
@@ -40,7 +40,7 @@ public class CurvedStroke extends Stroke {
     }
 
     private void drawControlPoints(Graphics2D g2) {
-        g2.setStroke(new BasicStroke(4));
+        g2.setStroke(new BasicStroke(8));
         g2.setColor(PancakePallete.GREEN);
         for (Point2D.Double point : getKnots()) {
             drawPoint(g2, point);
@@ -53,7 +53,7 @@ public class CurvedStroke extends Stroke {
         if (_previewPoint != null &&
             strokeStart != null
             && nearby(_previewPoint, strokeStart)) {
-            g2.setStroke(new BasicStroke(4));
+            g2.setStroke(new BasicStroke(6));
             g2.setColor(PancakePallete.RED);
             drawPoint(g2, strokeStart);
         }

@@ -38,8 +38,8 @@ public abstract class Stroke implements Serializable {
     }
 
     protected void drawPoint(Graphics2D g2, Point2D.Double point) {
-        double w = 10;
-        double h = 10;
+        double w = 16;
+        double h = 16;
         double x = point.getX() - (w / 2);
         double y = point.getY() - (h / 2);
         Ellipse2D.Double circle = new Ellipse2D.Double(x, y, w, h);
