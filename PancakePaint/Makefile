@@ -12,7 +12,8 @@ run: default
 	java $(CP) $(LIBS) $(EXEC)
 
 jar: $(SOURCES)
-	cd $(BINDIR) && jar -cvfm ../pp.jar ../MANIFEST.MF * ../lib/*.jar; cd -
+	cp lib/*.jar $(BINDIR)
+	cd $(BINDIR) && jar -cvfm ../pp.jar ../MANIFEST.MF * *.jar; cd -
 
 clean:
 	find $(BINDIR) -type f -exec rm {}  +
