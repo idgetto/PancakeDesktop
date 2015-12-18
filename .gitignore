@@ -1,6 +1,5 @@
 *~
 *.swp
 bin/
-lib/
 *.log
 *.class
