@@ -1,7 +1,7 @@
 SRCDIR := src
 BINDIR := bin
 SOURCES := $(shell find $(SRCDIR) -type f -name *.java)
-LIBS := -Djava.library.path=libs
+LIBS := -Djava.library.path=lib
 EXEC := PancakePaintRunner
 CP := -cp .:lib/Jama-1.0.3.jar:lib/commons-math3-3.5.jar:bin
 
